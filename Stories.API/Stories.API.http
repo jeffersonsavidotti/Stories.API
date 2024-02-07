@@ -1,0 +1,6 @@
+@Stories.API_HostAddress = http://localhost:5298
+
+GET {{Stories.API_HostAddress}}/Stories/
+Accept: application/json
+
+###
