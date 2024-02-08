@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Stories.Infrastructure.Models;
 
 public class AppDbContext : DbContext
@@ -16,7 +17,7 @@ public class AppDbContext : DbContext
             entity.ToTable("Stories");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Title).IsRequired().HasMaxLength(255);
-            entity.Property(e => e.Description).IsRequired();
+            entity.Property(e => e.Description).IsRequired().HasMaxLength(250);
             entity.Property(e => e.Department).HasMaxLength(100);
 
         });

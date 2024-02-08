@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stories.Infrastructure.Models;
+using Stories.Services.Interfaces;
 
-namespace Stories.Infrastructure.Repository
+namespace Stories.Services
 {
-    public class VoteRepository : IVoteRepository
+    public class VoteService : IVoteService
     {
         private readonly AppDbContext _context;
 
-        public VoteRepository(AppDbContext context)
+        public VoteService(AppDbContext context)
         {
             _context = context;
         }

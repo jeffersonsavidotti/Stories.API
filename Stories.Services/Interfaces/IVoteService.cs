@@ -1,13 +1,8 @@
 ﻿using Stories.Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Stories.Infrastructure.Repository
+namespace Stories.Services.Interfaces
 {
-    public interface IVoteRepository
+    internal interface IVoteService
     {
         Task<Vote> GetVoteByStoryAndUserAsync(int storyId, int userId);
         Task<bool> AddVoteAsync(Vote vote);

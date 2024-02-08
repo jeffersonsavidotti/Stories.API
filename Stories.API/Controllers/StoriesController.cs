@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stories.Services;
-using Stories.Services.DTOs;
+using Stories.Infrastructure.Models;
+using Stories.Services.Interfaces;
 
 [Route("api/[controller]")]
 [ApiController]
 public class StoriesController : ControllerBase
 {
-    private readonly IServices _storyService;
+    private readonly IStoryService _storyService;
 
-    public StoriesController(IServices storyService)
+    public StoriesController(IStoryService storyService)
     {
         _storyService = storyService;
     }
@@ -17,41 +17,42 @@ public class StoriesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllStories()
     {
-        var stories = await _storyService.GetAllStoriesAsync();
+        var stories = await _storyService.GetAllAsync();
         return Ok(stories);
     }
     //GetID
     [HttpGet("{id}")]
     public async Task<IActionResult> GetStory(int id)
     {
-        var story = await _storyService.GetStoryByIdAsync(id);
+        var story = await _storyService.GetByIdAsync(id);
         if (story == null) return NotFound();
         return Ok(story);
     }
     //Post
     [HttpPost]
-    public async Task<IActionResult> CreateStory([FromBody] StoryDTO storyDto)
+    public async Task<IActionResult> CreateStory([FromBody]Story story)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var createdStory = await _storyService.AddStoryAsync(storyDto);
-        return CreatedAtAction(nameof(GetStory), new { id = createdStory.Id }, createdStory);
+        await _storyService.AddStoryAsync(story);
+        return Ok(story);
+        
     }
-    ////Put
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateStory(int id, [FromBody] StoryDTO storyDto)
-    //{
-    //    if (!ModelState.IsValid) return BadRequest(ModelState);
-    //    var result = await _storyService.UpdateStoryAsync(id, storyDto);
-    //    if (!result) return NotFound();
-    //    return NoContent();
-    //}
-    ////Delete
-    //[HttpDelete("{id}")]
-    //public async Task<IActionResult> DeleteStory(int id)
-    //{
-    //    var result = await _storyService.DeleteStoryAsync(id);
-    //    if (!result) return NotFound();
-    //    return NoContent();
-    //}
+    //Put
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateStory(int id, Story story)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var result = await _storyService.UpdateStoryAsync(id, story);
+        if (!result) return NotFound();
+        return NoContent();
+    }
+    //Delete
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteStory(int id)
+    {
+        var result = await _storyService.DeleteStoryAsync(id);
+        if (!result) return NotFound();
+        return NoContent();
+    }
 }
 

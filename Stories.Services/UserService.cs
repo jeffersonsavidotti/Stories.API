@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stories.Infrastructure.Models;
+using Stories.Services.DTOs;
+using Stories.Services.Interfaces;
 
-namespace Stories.Infrastructure.Repository
+namespace Stories.Services
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
         private readonly AppDbContext _context;
 
-        public UserRepository(AppDbContext context)
+        public UserService(AppDbContext context)
         {
             _context = context;
         }

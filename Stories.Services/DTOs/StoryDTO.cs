@@ -8,8 +8,7 @@ namespace Stories.Services.DTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public string Department { get; set; }
-        public int Likes { get; set; }
-        public int Dislikes { get; set; }
+        public List<Vote> Votes { get; set; } = new List<Vote>();
     }
 
 }

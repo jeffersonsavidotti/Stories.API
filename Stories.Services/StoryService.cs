@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stories.Infrastructure.Models;
+using Stories.Services.Interfaces;
 
-namespace Stories.Infrastructure.Repository
+
+namespace Stories.Services
 {
-    public class StoryRepository : IStoryRepository
+    internal class StoryService : IStoryService
     {
         private readonly AppDbContext _context;
 
-        public StoryRepository(AppDbContext context)
+        public StoryService(AppDbContext context)
         {
             _context = context;
         }
@@ -28,7 +30,7 @@ namespace Stories.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> UpdateStoryAsync(Story story)
+        public async Task<bool> UpdateStoryAsync(int id, Story story)
         {
             _context.Stories.Update(story);
             return await _context.SaveChangesAsync() > 0;

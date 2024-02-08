@@ -1,13 +1,8 @@
 ﻿using Stories.Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Stories.Infrastructure.Repository
+namespace Stories.Services.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> GetByIdAsync(int id);
