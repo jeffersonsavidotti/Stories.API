@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Stories.Infrastructure.Data;
 using Stories.Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stories.Infrastructure.Repository
 {
@@ -20,7 +14,7 @@ namespace Stories.Infrastructure.Repository
 
         public async Task<Vote> GetVoteByStoryAndUserAsync(int storyId, int userId)
         {
-            return await _context.Votes.FirstOrDefaultAsync(v => v.StoryId == storyId && v.UserId == userId);
+            return await _context.Votes.FirstOrDefaultAsync(v => v.IdStory == storyId && v.IdUser == userId);
         }
 
         public async Task<bool> AddVoteAsync(Vote vote)

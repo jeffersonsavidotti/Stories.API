@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stories.Infrastructure.Models;
-using Stories.Infrastructure.Entities;
 
 public class AppDbContext : DbContext
 {
@@ -26,9 +25,9 @@ public class AppDbContext : DbContext
         {
             entity.ToTable("Votes");
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.IsLike).IsRequired();
-            entity.HasOne(e => e.Story).WithMany(s => s.Votes).HasForeignKey(e => e.StoryId);
-            entity.HasOne(e => e.User).WithMany(u => u.Votes).HasForeignKey(e => e.UserId);
+            entity.Property(e => e.VoteValue).IsRequired();
+            entity.HasOne(e => e.Story).WithMany(s => s.Votes).HasForeignKey(e => e.IdStory);
+            entity.HasOne(e => e.User).WithMany(u => u.Votes).HasForeignKey(e => e.IdUser);
         });
 
         modelBuilder.Entity<User>(entity =>
