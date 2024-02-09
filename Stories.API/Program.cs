@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Stories.Services.Interfaces;
+using Stories.Services;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
             x => x.MigrationsAssembly("Stories.API"));
 });
+
+builder.Services.AddScoped<IStoryService, StoryService>();
 
 var app = builder.Build();
 

@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Stories.Infrastructure.Models;
+﻿using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 
 
 namespace Stories.Services
 {
-    internal class StoryService : IStoryService
+    public class StoryService : IStoryService
     {
         private readonly AppDbContext _context;
 
@@ -14,35 +13,47 @@ namespace Stories.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Story>> GetAllAsync()
+        public List<StoryDTO> GetAll()
         {
-            return await _context.Stories.Include(s => s.Votes).ToListAsync();
+            return _context.Stories.
+                Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Description = s.Description, Department = s.Department }).
+                ToList();
         }
 
-        public async Task<Story> GetByIdAsync(int id)
+        public StoryDTO GetById(int id)
         {
-            return await _context.Stories.Include(s => s.Votes).FirstOrDefaultAsync(s => s.Id == id);
+            return _context.Stories
+                .Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Department = s.Department, Description = s.Description })
+                .FirstOrDefault(f => f.Id == id);
         }
 
-        public async Task AddStoryAsync(Story story)
+        public void AddStory(int id, StoryDTO story)
         {
-            await _context.Stories.AddAsync(story);
-            await _context.SaveChangesAsync();
+            _context.Add( new StoryDTO() { Id = id, Title = story.Title, Description = story.Description, Department = story.Department });
+            _context.SaveChanges();
         }
 
-        public async Task<bool> UpdateStoryAsync(int id, Story story)
+        public bool UpdateStory(int id, StoryDTO story)
         {
-            _context.Stories.Update(story);
-            return await _context.SaveChangesAsync() > 0;
+            var storyDTO = _context.Stories.SingleOrDefault(d => d.Id == id);
+            
+            if (storyDTO == null)
+            {
+                return false;
+            }
+            _context.Update(new StoryDTO() { Id = id, Title = story.Title, Description = story.Description, Department = story.Department });
+            _context.SaveChanges();
+            return true;
+            
         }
 
-        public async Task<bool> DeleteStoryAsync(int id)
+        public bool DeleteStory(int id)
         {
-            var story = await _context.Stories.FindAsync(id);
+            var story = _context.Stories.Find(id);
             if (story != null)
             {
                 _context.Stories.Remove(story);
-                return await _context.SaveChangesAsync() > 0;
+                return _context.SaveChanges() > 0;
             }
             return false;
         }

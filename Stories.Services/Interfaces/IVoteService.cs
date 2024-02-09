@@ -2,7 +2,7 @@
 
 namespace Stories.Services.Interfaces
 {
-    internal interface IVoteService
+    public interface IVoteService
     {
         Task<Vote> GetVoteByStoryAndUserAsync(int storyId, int userId);
         Task<bool> AddVoteAsync(Vote vote);

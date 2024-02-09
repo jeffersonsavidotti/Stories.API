@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Stories.API.Applications.ViewModels;
 using Stories.Infrastructure.Models;
+using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 
 [Route("api/[controller]")]
@@ -15,42 +17,46 @@ public class StoriesController : ControllerBase
 
     //GetAll
     [HttpGet]
-    public async Task<IActionResult> GetAllStories()
+    public IActionResult GetAll()
     {
-        var stories = await _storyService.GetAllAsync();
-        return Ok(stories);
+        var story = _storyService.GetAll().ToList();
+        if(story.Count == 0)
+            return NoContent();
+
+        return Ok(story);
+
     }
+
     //GetID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetStory(int id)
+    public IActionResult Get(int id)
     {
-        var story = await _storyService.GetByIdAsync(id);
-        if (story == null) return NotFound();
+        var story = _storyService.GetAll().FirstOrDefault(x => x.Id == id);
+        if (story.Id == null)
+            return NotFound();
+
         return Ok(story);
     }
     //Post
     [HttpPost]
-    public async Task<IActionResult> CreateStory([FromBody]Story story)
+    public IActionResult AddStory( StoryDTO story)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        await _storyService.AddStoryAsync(story);
-        return Ok(story);
-        
+        var storyDTO = new StoryDTO();
+        return Ok(storyDTO);
     }
     //Put
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStory(int id, Story story)
+    public IActionResult UpdateStory(int id, StoryDTO story)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        var result = await _storyService.UpdateStoryAsync(id, story);
-        if (!result) return NotFound();
-        return NoContent();
+        StoryDTO storyDTO = new StoryDTO();
+        return Ok(storyDTO);
+
     }
     //Delete
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteStory(int id)
+    public IActionResult DeleteStory(int id)
     {
-        var result = await _storyService.DeleteStoryAsync(id);
+        var result = _storyService.DeleteStory(id);
         if (!result) return NotFound();
         return NoContent();
     }
