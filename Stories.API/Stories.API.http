@@ -1,6 +1,31 @@
-@Stories.API_HostAddress = http://localhost:5298
+@Stories.API_HostAddress = https://localhost:7098
 
-GET {{Stories.API_HostAddress}}/Stories/
-Accept: application/json
+GET {{Stories.API_HostAddress}}/api/stories
+
+###
+
+POST {{Stories.API_HostAddress}}/api/stories
+Content-Type: application/json
+
+{
+  //StoryDTO
+}
+
+###
+
+GET {{Stories.API_HostAddress}}/api/stories/0
+
+###
+
+DELETE {{Stories.API_HostAddress}}/api/stories/0
+
+###
+
+PUT {{Stories.API_HostAddress}}/api/stories/0
+Content-Type: application/json
+
+{
+  //StoryDTO
+}
 
 ###
