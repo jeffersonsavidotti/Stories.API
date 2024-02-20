@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stories.API.Applications.ViewModels;
-using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Stories.API.Controllers
 {
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -15,8 +18,9 @@ namespace Stories.API.Controllers
             _userService = userService;
         }
 
-        // GET: User
-        public async Task<IActionResult> Index()
+        // GET: api/User
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
         {
             var userDtos = await _userService.GetAllUsersAsync();
             var viewModels = userDtos.Select(dto => new UserViewModel
@@ -26,11 +30,12 @@ namespace Stories.API.Controllers
                 VotesCount = dto.VotesCount
             }).ToList();
 
-            return View(viewModels);
+            return Ok(viewModels);
         }
 
-        // GET: User/Details/5
-        public async Task<IActionResult> Details(int id)
+        // GET: api/User/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
             if (userDto == null)
@@ -45,100 +50,64 @@ namespace Stories.API.Controllers
                 VotesCount = userDto.VotesCount
             };
 
-            return View(viewModel);
+            return Ok(viewModel);
         }
 
-        // GET: User/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: User/Create
+        // POST: api/User
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserViewModel viewModel)
+        public async Task<IActionResult> Create([FromBody] UserViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userDto = new UserDTO
-                {
-                    Name = viewModel.Name,
-                    // VotesCount não é usado na criação
-                };
-
-                var createdUserDto = await _userService.CreateUserAsync(userDto);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(viewModel);
-        }
-
-        // GET: User/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
-            var userDto = await _userService.GetUserByIdAsync(id);
-            if (userDto == null)
-            {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            var viewModel = new UserViewModel
+            var userDto = new UserDTO
             {
-                Id = userDto.Id,
-                Name = userDto.Name,
-                VotesCount = userDto.VotesCount // Pode ser omitido se não for editável
+                Name = viewModel.Name
+                // VotesCount não é usado na criação
             };
 
-            return View(viewModel);
+            var createdUserDto = await _userService.CreateUserAsync(userDto);
+            return CreatedAtAction(nameof(GetById), new { id = createdUserDto.Id }, createdUserDto);
         }
 
-        // POST: User/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, UserViewModel viewModel)
+        // PUT: api/User/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(int id, [FromBody] UserViewModel viewModel)
         {
             if (id != viewModel.Id || !ModelState.IsValid)
             {
-                return View(viewModel);
+                return BadRequest();
             }
 
             var userDto = new UserDTO
             {
                 Id = viewModel.Id,
-                Name = viewModel.Name,
+                Name = viewModel.Name
                 // VotesCount é gerenciado separadamente e não é atualizado aqui
             };
 
-            await _userService.UpdateUserAsync(id, userDto);
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: User/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            var userDto = await _userService.GetUserByIdAsync(id);
-            if (userDto == null)
+            var success = await _userService.UpdateUserAsync(id, userDto);
+            if (success == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new UserViewModel
-            {
-                Id = userDto.Id,
-                Name = userDto.Name,
-                VotesCount = userDto.VotesCount
-            };
-
-            return View(viewModel);
+            return NoContent();
         }
 
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // DELETE: api/User/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            await _userService.DeleteUserAsync(id);
-            return RedirectToAction(nameof(Index));
+            var success = await _userService.DeleteUserAsync(id);
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

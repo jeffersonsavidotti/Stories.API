@@ -1,4 +1,5 @@
 ﻿using Stories.Infrastructure.Models;
+using System.Linq; // Necessário para o uso de LINQ
 
 namespace Stories.Services.DTOs
 {
@@ -8,9 +9,11 @@ namespace Stories.Services.DTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public string Department { get; set; }
-        public int VotesCount { get; set; }
+        public int PositiveVotesCount { get; set; }
+        public int NegativeVotesCount { get; set; }
 
         public StoryDTO() { }
+
         // Construtor que mapeia uma instância de Story para StoryDTO
         public StoryDTO(Story story)
         {
@@ -18,8 +21,9 @@ namespace Stories.Services.DTOs
             Title = story.Title;
             Description = story.Description;
             Department = story.Department;
-            VotesCount = story.Votes?.Count ?? 0; // Contagem de votos, assumindo que Votes pode ser nulo
+            // Calcula a contagem de votos positivos e negativos
+            PositiveVotesCount = story.Votes?.Count(v => v.VoteValue) ?? 0;
+            NegativeVotesCount = story.Votes?.Count(v => !v.VoteValue) ?? 0;
         }
     }
 }
-

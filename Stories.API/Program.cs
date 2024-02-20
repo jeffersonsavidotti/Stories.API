@@ -9,17 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IStoryService, StoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IVoteService, VoteService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-            x => x.MigrationsAssembly("Stories.API"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    //,x => x.MigrationsAssembly("Stories.API")
 });
 
-builder.Services.AddScoped<IStoryService, StoryService>();
+
 
 var app = builder.Build();
 

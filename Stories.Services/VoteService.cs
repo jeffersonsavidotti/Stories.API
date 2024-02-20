@@ -2,6 +2,9 @@
 using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Stories.Services
 {
@@ -16,37 +19,73 @@ namespace Stories.Services
 
         public async Task<VoteDTO> CreateVoteAsync(VoteDTO voteDto)
         {
-            var vote = new Vote
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                IdStory = voteDto.IdStory,
-                IdUser = voteDto.IdUser,
-                VoteValue = voteDto.VoteValue
-            };
+                var vote = new Vote
+                {
+                    IdStory = voteDto.IdStory,
+                    IdUser = voteDto.IdUser,
+                    VoteValue = voteDto.VoteValue
+                };
 
-            _context.Votes.Add(vote);
-            await _context.SaveChangesAsync();
+                _context.Votes.Add(vote);
+                await _context.SaveChangesAsync();
 
-            voteDto.Id = vote.Id; // Atualize o ID após salvar
-            return voteDto;
+                // Atualizar as contagens na Story
+                var story = await _context.Stories.FindAsync(voteDto.IdStory);
+                if (story != null)
+                {
+                    if (vote.VoteValue)
+                    {
+                        story.PositiveVotesCount++;
+                    }
+                    else
+                    {
+                        story.NegativeVotesCount++;
+                    }
+                    await _context.SaveChangesAsync();
+                }
+
+                // Opcional: Atualizar as contagens no User, se aplicável
+                // var user = await _context.Users.FindAsync(voteDto.IdUser);
+                // Atualize o usuário conforme necessário
+
+                await transaction.CommitAsync();
+
+                voteDto.Id = vote.Id; // Atualize o ID após salvar
+                return voteDto;
+            }
+        }
+
+        public async Task<IEnumerable<VoteDTO>> GetAllVotesAsync()
+        {
+            var votes = await _context.Votes
+                .Select(v => new VoteDTO
+                {
+                    Id = v.Id,
+                    IdStory = v.IdStory,
+                    IdUser = v.IdUser,
+                    VoteValue = v.VoteValue
+                })
+                .ToListAsync();
+
+            return votes;
         }
 
         public async Task<VoteDTO> GetVoteByIdAsync(int id)
         {
             var vote = await _context.Votes
                 .Where(v => v.Id == id)
-                .Select(v => new VoteDTO(v)) // Supondo que você tenha um construtor adequado em VoteDTO
+                .Select(v => new VoteDTO
+                {
+                    Id = v.Id,
+                    IdStory = v.IdStory,
+                    IdUser = v.IdUser,
+                    VoteValue = v.VoteValue
+                })
                 .FirstOrDefaultAsync();
 
             return vote;
-        }
-
-        public async Task<IEnumerable<VoteDTO>> GetAllVotesAsync()
-        {
-            var votes = await _context.Votes
-                .Select(v => new VoteDTO(v)) // Supondo que você tenha um construtor adequado em VoteDTO
-                .ToListAsync();
-
-            return votes;
         }
 
         public async Task<bool> DeleteVoteAsync(int id)
@@ -57,10 +96,32 @@ namespace Stories.Services
                 return false;
             }
 
-            _context.Votes.Remove(vote);
-            await _context.SaveChangesAsync();
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                _context.Votes.Remove(vote);
 
-            return true;
+                // Atualizar as contagens na Story
+                var story = await _context.Stories.FindAsync(vote.IdStory);
+                if (story != null)
+                {
+                    if (vote.VoteValue)
+                    {
+                        story.PositiveVotesCount--;
+                    }
+                    else
+                    {
+                        story.NegativeVotesCount--;
+                    }
+                    await _context.SaveChangesAsync();
+                }
+
+                // Opcional: Atualizar as contagens no User, se aplicável
+                // var user = await _context.Users.FindAsync(vote.IdUser);
+                // Atualize o usuário conforme necessário
+
+                await transaction.CommitAsync();
+                return true;
+            }
         }
     }
 }
