@@ -14,38 +14,53 @@ namespace Stories.Services
             _context = context;
         }
 
-        public async Task<Vote> GetVoteByStoryAsync(int storyId)
+        public async Task<VoteDTO> CreateVoteAsync(VoteDTO voteDto)
         {
-            return await _context.Votes.FirstOrDefaultAsync(v => v.IdStory == storyId);
-        }
-
-        public async Task<Vote> GetVoteByUserAsync(int userId)
-        {
-            return await _context.Votes.FirstOrDefaultAsync(v => v.IdUser == userId);
-        }
-
-        public async Task<bool> AddVoteAsync(VoteDTO voteDTO)
-        {
-            Vote vote = new Vote()
+            var vote = new Vote
             {
-                Id = voteDTO.Id,
-                Story = voteDTO.Story,
-                User = voteDTO.User
+                IdStory = voteDto.IdStory,
+                IdUser = voteDto.IdUser,
+                VoteValue = voteDto.VoteValue
             };
-            await _context.Votes.AddAsync(vote);
-            return await _context.SaveChangesAsync() > 0;
+
+            _context.Votes.Add(vote);
+            await _context.SaveChangesAsync();
+
+            voteDto.Id = vote.Id; // Atualize o ID após salvar
+            return voteDto;
         }
 
-        public async Task<bool> UpdateVoteAsync(VoteDTO voteDTO)
+        public async Task<VoteDTO> GetVoteByIdAsync(int id)
         {
-            Vote vote = new Vote()
+            var vote = await _context.Votes
+                .Where(v => v.Id == id)
+                .Select(v => new VoteDTO(v)) // Supondo que você tenha um construtor adequado em VoteDTO
+                .FirstOrDefaultAsync();
+
+            return vote;
+        }
+
+        public async Task<IEnumerable<VoteDTO>> GetAllVotesAsync()
+        {
+            var votes = await _context.Votes
+                .Select(v => new VoteDTO(v)) // Supondo que você tenha um construtor adequado em VoteDTO
+                .ToListAsync();
+
+            return votes;
+        }
+
+        public async Task<bool> DeleteVoteAsync(int id)
+        {
+            var vote = await _context.Votes.FindAsync(id);
+            if (vote == null)
             {
-                Id = voteDTO.Id,
-                Story = voteDTO.Story,
-                User = voteDTO.User
-            };
-            _context.Votes.Update(vote);
-            return await _context.SaveChangesAsync() > 0;
+                return false;
+            }
+
+            _context.Votes.Remove(vote);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

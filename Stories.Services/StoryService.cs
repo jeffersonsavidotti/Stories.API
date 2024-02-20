@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
@@ -14,115 +15,72 @@ namespace Stories.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<StoryDTO>> GetAllAsync()
-        {
-            return _context.Stories.
-                Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Description = s.Description, Department = s.Department }).
-                ToList();
-        }
-        public async Task<StoryDTO> GetByIdAsync(int id)
-        {
-
-            return _context.Stories
-                .Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Department = s.Department, Description = s.Description })
-                .FirstOrDefault(f => f.Id == id);
-        }
-        public async Task AddStoryAsync(StoryDTO storyDTO) //<StoryDTO>
+        public async Task<StoryDTO> CreateStoryAsync(StoryDTO storyDto)
         {
             var story = new Story
             {
-                Title = storyDTO.Title,
-                Description = storyDTO.Description,
-                Department = storyDTO.Department
+                Title = storyDto.Title,
+                Description = storyDto.Description,
+                Department = storyDto.Department,
+                // Votes não são criados aqui; isso seria gerenciado separadamente.
             };
-            await _context.AddAsync(story);
+
+            _context.Stories.Add(story);
             await _context.SaveChangesAsync();
-            //storyDTO.Id = story.Id;
-            //return storyDTO;
+
+            storyDto.Id = story.Id; // Atualize o ID após a gravação no banco de dados.
+            return storyDto;
         }
-        public async Task UpdateStoryAsync(int id, StoryDTO storyDTO)
+
+        public async Task<StoryDTO> GetStoryByIdAsync(int id)
         {
-            var data = _context.Stories.FirstOrDefault(d => d.Id == id);
-            if (data == null)
-            {
-                Console.WriteLine("Id não encontrado");
-            }
-            Story story = new Story()
-            {
-                Id = id,
-                Title = storyDTO.Title,
-                Description = storyDTO.Description,
-                Department = storyDTO.Department
-            };
-            _context.Update(storyDTO);
-            await _context.SaveChangesAsync();
+            var story = await _context.Stories
+                .Where(s => s.Id == id)
+                .Select(s => new StoryDTO(s)) // Supondo que você tenha um construtor adequado em StoryDTO
+                .FirstOrDefaultAsync();
+
+            return story;
         }
+
+        public async Task<IEnumerable<StoryDTO>> GetAllStoriesAsync()
+        {
+            var stories = await _context.Stories
+                .Select(s => new StoryDTO(s)) // Supondo que você tenha um construtor adequado em StoryDTO
+                .ToListAsync();
+
+            return stories;
+        }
+
+        public async Task<StoryDTO> UpdateStoryAsync(int id, StoryDTO storyDto)
+        {
+            var story = await _context.Stories.FirstOrDefaultAsync(s => s.Id == id);
+            if (story == null)
+            {
+                return null; // Ou lance uma exceção adequada
+            }
+
+            story.Title = storyDto.Title;
+            story.Description = storyDto.Description;
+            story.Department = storyDto.Department;
+            // Não atualize Votes aqui
+
+            await _context.SaveChangesAsync();
+
+            return storyDto; // Pode querer retornar uma nova consulta ao DTO para incluir quaisquer alterações derivadas do banco de dados
+        }
+
         public async Task<bool> DeleteStoryAsync(int id)
         {
-            // Verifica se a história existe
             var story = await _context.Stories.FindAsync(id);
             if (story == null)
             {
                 return false;
             }
 
-            // Chamada ao repositório para remover a história
-            _context.Remove(story);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
+            _context.Stories.Remove(story);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
-        #region - Teste de metodos com DTO
-        //public async Task<IEnumerable<StoryDTO>> GetAllAsync()
-        //{
-        //    return _context.Stories.
-        //        Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Description = s.Description, Department = s.Department }).
-        //        ToList();
-        //}
-
-        //public async Task<StoryDTO> GetByIdAsync(int id)
-        //{
-
-        //    return _context.Stories
-        //        .Select(s => new StoryDTO() { Id = s.Id, Title = s.Title, Department = s.Department, Description = s.Description })
-        //        .FirstOrDefault(f => f.Id == id);
-        //}
-
-        //public async Task AddStoryAsync(StoryDTO storyDTO)
-        //{
-        //    Story story = new Story()
-        //    {
-        //        Title = storyDTO.Title,
-        //        Description = storyDTO.Description,
-        //        Department = storyDTO.Department
-        //    };
-        //    await _context.AddAsync(storyDTO);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task UpdateStoryAsync(int id, StoryDTO storyDTO)
-        //{
-        //    var data = _context.Stories.FirstOrDefault(d => d.Id == id);
-
-        //    if (data == null)
-        //    {
-        //        Console.WriteLine("Id não encontrado");
-        //    }
-        //    Story story = new Story()
-        //    {
-        //        Id = id,
-        //        Title = storyDTO.Title,
-        //        Description = storyDTO.Description,
-        //        Department = storyDTO.Department
-        //    };
-        //    _context.Update(storyDTO);
-        //    await _context.SaveChangesAsync();
-
-        //}
-
-        //public async Task<bool> DeleteStory(int id)
-        //{
-        //    await _context.Stories.Remove(id);
-        //}
-        #endregion
     }
 }

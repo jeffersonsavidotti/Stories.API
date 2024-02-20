@@ -1,72 +1,159 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stories.Infrastructure.Models;
+using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 
 namespace Stories.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StoriesController : ControllerBase
+    public class StoryController : Controller
     {
         private readonly IStoryService _storyService;
 
-        public StoriesController(IStoryService storyService)
+        public StoryController(IStoryService storyService)
         {
             _storyService = storyService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<StoryDTO>>> GetAllStories()
+        // GET: Story
+        public async Task<IActionResult> Index()
         {
-            var stories = await _storyService.GetAllAsync();
-            return Ok(stories);
+            var storyDtos = await _storyService.GetAllStoriesAsync();
+            var viewModels = storyDtos.Select(dto => new StoryViewModel
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                Department = dto.Department,
+                VotesCount = dto.VotesCount
+            });
+
+            return View(viewModels);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StoryDTO>> GetStoryById(int id)
+        // GET: Story/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            var story = await _storyService.GetByIdAsync(id);
-            if (story == null)
+            var storyDto = await _storyService.GetStoryByIdAsync(id);
+            if (storyDto == null)
             {
                 return NotFound();
             }
-            return Ok(story);
+
+            var viewModel = new StoryViewModel
+            {
+                Id = storyDto.Id,
+                Title = storyDto.Title,
+                Description = storyDto.Description,
+                Department = storyDto.Department,
+                VotesCount = storyDto.VotesCount
+            };
+
+            return View(viewModel);
         }
 
+        // GET: Story/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Story/Create
         [HttpPost]
-        public async Task<ActionResult<StoryDTO>> CreateStory([FromBody] StoryDTO storyDTO)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(StoryViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var storyDto = new StoryDTO
+                {
+                    Title = viewModel.Title,
+                    Description = viewModel.Description,
+                    Department = viewModel.Department,
+                    // VotesCount não é usado na criação
+                };
+
+                var createdStoryDto = await _storyService.CreateStoryAsync(storyDto);
+                return RedirectToAction(nameof(Index));
             }
-            await _storyService.AddStoryAsync(storyDTO);
-            return Ok();
+            return View(viewModel);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStory(int id, [FromBody] StoryDTO storyDTO)
+        // GET: Story/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            await _storyService.UpdateStoryAsync(id, storyDTO);
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStory(int id)
-        {
-            var result = await _storyService.DeleteStoryAsync(id);
-            if (!result)
+            var storyDto = await _storyService.GetStoryByIdAsync(id);
+            if (storyDto == null)
             {
                 return NotFound();
             }
 
-            return NoContent();
+            var viewModel = new StoryViewModel
+            {
+                Id = storyDto.Id,
+                Title = storyDto.Title,
+                Description = storyDto.Description,
+                Department = storyDto.Department,
+                VotesCount = storyDto.VotesCount // Pode ser omitido se não for editável
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Story/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, StoryViewModel viewModel)
+        {
+            if (id != viewModel.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var storyDto = new StoryDTO
+                {
+                    Id = viewModel.Id,
+                    Title = viewModel.Title,
+                    Description = viewModel.Description,
+                    Department = viewModel.Department,
+                    // VotesCount é gerenciado separadamente e não é atualizado aqui
+                };
+
+                await _storyService.UpdateStoryAsync(id, storyDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(viewModel);
+        }
+
+        // GET: Story/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            var storyDto = await _storyService.GetStoryByIdAsync(id);
+            if (storyDto == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new StoryViewModel
+            {
+                Id = storyDto.Id,
+                Title = storyDto.Title,
+                Description = storyDto.Description,
+                Department = storyDto.Department,
+                VotesCount = storyDto.VotesCount
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Story/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _storyService.DeleteStoryAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

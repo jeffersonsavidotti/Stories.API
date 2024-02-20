@@ -5,9 +5,9 @@ namespace Stories.Services.Interfaces
 {
     public interface IVoteService
     {
-        Task<Vote> GetVoteByStoryAsync(int storyId);
-        Task<Vote> GetVoteByUserAsync(int userId);
-        Task<bool> AddVoteAsync(VoteDTO voteDTO);
-        Task<bool> UpdateVoteAsync(VoteDTO voteDTO);
+        Task<VoteDTO> CreateVoteAsync(VoteDTO voteDto);
+        Task<VoteDTO> GetVoteByIdAsync(int id);
+        Task<IEnumerable<VoteDTO>> GetAllVotesAsync();
+        Task<bool> DeleteVoteAsync(int id);
     }
 }

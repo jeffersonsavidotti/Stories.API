@@ -1,103 +1,144 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Stories.API.Applications.ViewModels;
 using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 
 namespace Stories.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : Controller
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
+        // GET: User
+        public async Task<IActionResult> Index()
         {
-            var users = await _userService.GetAllAsync();
-            var userDtos = users.Select(u => new UserDTO
+            var userDtos = await _userService.GetAllUsersAsync();
+            var viewModels = userDtos.Select(dto => new UserViewModel
             {
-                Id = u.Id,
-                Name = u.Name,
-                // Mapeie outras propriedades conforme necessário
-            });
+                Id = dto.Id,
+                Name = dto.Name,
+                VotesCount = dto.VotesCount
+            }).ToList();
 
-            return Ok(userDtos);
+            return View(viewModels);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUserById(int id)
+        // GET: User/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            var user = await _userService.GetByIdAsync(id);
-
-            if (user == null)
+            var userDto = await _userService.GetUserByIdAsync(id);
+            if (userDto == null)
             {
                 return NotFound();
+            }
+
+            var viewModel = new UserViewModel
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                VotesCount = userDto.VotesCount
+            };
+
+            return View(viewModel);
+        }
+
+        // GET: User/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: User/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(UserViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDto = new UserDTO
+                {
+                    Name = viewModel.Name,
+                    // VotesCount não é usado na criação
+                };
+
+                var createdUserDto = await _userService.CreateUserAsync(userDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(viewModel);
+        }
+
+        // GET: User/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userDto = await _userService.GetUserByIdAsync(id);
+            if (userDto == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new UserViewModel
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                VotesCount = userDto.VotesCount // Pode ser omitido se não for editável
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: User/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, UserViewModel viewModel)
+        {
+            if (id != viewModel.Id || !ModelState.IsValid)
+            {
+                return View(viewModel);
             }
 
             var userDto = new UserDTO
             {
-                Id = user.Id,
-                Name = user.Name,
-                // Mapeie outras propriedades conforme necessário
+                Id = viewModel.Id,
+                Name = viewModel.Name,
+                // VotesCount é gerenciado separadamente e não é atualizado aqui
             };
 
-            return Ok(userDto);
+            await _userService.UpdateUserAsync(id, userDto);
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserDTO userDto)
+        // GET: User/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            var user = new User
+            var userDto = await _userService.GetUserByIdAsync(id);
+            if (userDto == null)
             {
+                return NotFound();
+            }
+
+            var viewModel = new UserViewModel
+            {
+                Id = userDto.Id,
                 Name = userDto.Name,
-                // Mapeie outras propriedades de UserDTO para User
+                VotesCount = userDto.VotesCount
             };
 
-            await _userService.AddUserAsync(user);
-
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, userDto);
+            return View(viewModel);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDto)
+        // POST: User/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userToUpdate = await _userService.GetByIdAsync(id);
-            if (userToUpdate == null)
-            {
-                return NotFound();
-            }
-
-            userToUpdate.Name = userDto.Name;
-            // Mapeie outras propriedades de UserDTO para User
-
-            var result = await _userService.UpdateUserAsync(userToUpdate);
-
-            if (!result)
-            {
-                return BadRequest();
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var result = await _userService.DeleteUserAsync(id);
-
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            await _userService.DeleteUserAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

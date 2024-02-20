@@ -1,13 +1,14 @@
 ﻿using Stories.Infrastructure.Models;
+using Stories.Services.DTOs;
 
 namespace Stories.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> GetAllAsync();
-        Task<User> GetByIdAsync(int id);
-        Task AddUserAsync(User user);
-        Task<bool> UpdateUserAsync(User user);
+        Task<UserDTO> CreateUserAsync(UserDTO userDto);
+        Task<UserDTO> GetUserByIdAsync(int id);
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        Task<UserDTO> UpdateUserAsync(int id, UserDTO userDto);
         Task<bool> DeleteUserAsync(int id);
     }
 }

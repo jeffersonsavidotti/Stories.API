@@ -8,6 +8,7 @@ namespace Stories.API.Applications.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public string Department { get; set; }
-        public List<Vote> Votes { get; set; } = new List<Vote>();
+        public int VotesCount { get; set; }
+
     }
 }
