@@ -27,7 +27,9 @@ namespace Stories.API.Controllers
             {
                 Id = dto.Id,
                 Name = dto.Name,
-                VotesCount = dto.VotesCount
+                // Atualizado para refletir a estrutura atual do UserDTO
+                PositiveVotesCount = dto.PositiveVotesCount,
+                NegativeVotesCount = dto.NegativeVotesCount
             }).ToList();
 
             return Ok(viewModels);
@@ -47,7 +49,9 @@ namespace Stories.API.Controllers
             {
                 Id = userDto.Id,
                 Name = userDto.Name,
-                VotesCount = userDto.VotesCount
+                // Reflete a estrutura atual do UserDTO
+                PositiveVotesCount = userDto.PositiveVotesCount,
+                NegativeVotesCount = userDto.NegativeVotesCount
             };
 
             return Ok(viewModel);
@@ -65,10 +69,11 @@ namespace Stories.API.Controllers
             var userDto = new UserDTO
             {
                 Name = viewModel.Name
-                // VotesCount não é usado na criação
+                // Informações sobre votos são gerenciadas separadamente
             };
 
             var createdUserDto = await _userService.CreateUserAsync(userDto);
+            // Retorna o usuário criado com o status 201 Created
             return CreatedAtAction(nameof(GetById), new { id = createdUserDto.Id }, createdUserDto);
         }
 
@@ -85,15 +90,16 @@ namespace Stories.API.Controllers
             {
                 Id = viewModel.Id,
                 Name = viewModel.Name
-                // VotesCount é gerenciado separadamente e não é atualizado aqui
+                // Informações sobre votos são gerenciadas separadamente
             };
 
-            var success = await _userService.UpdateUserAsync(id, userDto);
-            if (success == null)
+            var updatedUserDto = await _userService.UpdateUserAsync(id, userDto);
+            if (updatedUserDto == null)
             {
                 return NotFound();
             }
 
+            // Resposta NoContent (204) após a atualização bem-sucedida
             return NoContent();
         }
 
@@ -101,13 +107,12 @@ namespace Stories.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _userService.DeleteUserAsync(id);
+            bool success = await _userService.DeleteUserAsync(id);
             if (!success)
             {
                 return NotFound();
             }
-
-            return NoContent();
+            return NoContent(); // Retorna 204 No Content para indicar sucesso na operação de delete
         }
     }
 }

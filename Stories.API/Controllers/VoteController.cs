@@ -51,16 +51,17 @@ namespace Stories.API.Controllers
             };
 
             var createdVoteDto = await _voteService.CreateVoteAsync(voteDto);
-            // Para seguir as práticas RESTful mais de perto, considere retornar o recurso criado
-            // e o status code 201 Created, ou 204 No Content se o recurso criado não precisar ser retornado.
+
+            // Retornando o voto criado com o status 201 Created
+            // Note que, se sua API não suporta a recuperação de um voto específico, 
+            // você pode optar por retornar NoContent() como alternativa.
             return CreatedAtAction(nameof(GetAllVotes), new { id = createdVoteDto.Id }, createdVoteDto);
-            // Se você optar por não retornar o recurso, use:
-            // return NoContent();
         }
 
-        // Métodos para Edit e Delete não são implementados devido à natureza imutável dos votos.
+        // Métodos para Edit e Delete não são implementados neste exemplo devido à natureza imutável dos votos.
     }
 }
+
 
 //using Microsoft.AspNetCore.Mvc;
 //using Stories.API.Applications.ViewModels;

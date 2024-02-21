@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int VotesCount { get; set; } 
+        public int PositiveVotesCount { get; set; }
+        public int NegativeVotesCount { get; set; }
     }
 }

@@ -29,7 +29,8 @@ namespace Stories.API.Controllers
                 Title = dto.Title,
                 Description = dto.Description,
                 Department = dto.Department,
-                VotesCount = dto.VotesCount,
+                PositiveVotesCount = dto.PositiveVotesCount, // Ajustado para incluir contagens de votos
+                NegativeVotesCount = dto.NegativeVotesCount,
             }).ToList();
 
             return Ok(viewModels);
@@ -51,7 +52,8 @@ namespace Stories.API.Controllers
                 Title = storyDto.Title,
                 Description = storyDto.Description,
                 Department = storyDto.Department,
-                VotesCount = storyDto.VotesCount
+                PositiveVotesCount = storyDto.PositiveVotesCount,
+                NegativeVotesCount = storyDto.NegativeVotesCount,
             };
 
             return Ok(viewModel);
@@ -71,7 +73,7 @@ namespace Stories.API.Controllers
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 Department = viewModel.Department,
-                // VotesCount não é usado na criação
+                // A criação não envolve diretamente contagens de votos
             };
 
             var createdStoryDto = await _storyService.CreateStoryAsync(storyDto);
@@ -82,9 +84,9 @@ namespace Stories.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] StoryViewModel viewModel)
         {
-            if (id != viewModel.Id || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var storyDto = new StoryDTO
@@ -93,11 +95,11 @@ namespace Stories.API.Controllers
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 Department = viewModel.Department,
-                // VotesCount é gerenciado separadamente e não é atualizado aqui
+                // As contagens de votos são gerenciadas separadamente
             };
 
-            var success = await _storyService.UpdateStoryAsync(id, storyDto);
-            if (success == null)
+            var updatedStoryDto = await _storyService.UpdateStoryAsync(id, storyDto);
+            if (updatedStoryDto == null)
             {
                 return NotFound();
             }
