@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Stories.Services.Interfaces;
 using Stories.Services;
 using System.Configuration;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

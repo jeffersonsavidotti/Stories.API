@@ -1,0 +1,19 @@
+<h2>Adicionar Nova História</h2>
+<form #storyForm="ngForm" (ngSubmit)="addStory(storyForm.value)">
+  <mat-form-field appearance="fill">
+    <mat-label>Título</mat-label>
+    <input matInput ngModel name="title" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput ngModel name="description" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Departamento</mat-label>
+    <input matInput ngModel name="department" required>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Adicionar História</button>
+</form>

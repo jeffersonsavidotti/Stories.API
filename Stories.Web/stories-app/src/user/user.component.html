@@ -1,0 +1,12 @@
+<div class="user-form-container">
+    <h2>Adicionar Novo Usuário</h2>
+    <form #userForm="ngForm" (ngSubmit)="addUser(userForm.value)">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome do Usuário</mat-label>
+        <input matInput ngModel name="name" required placeholder="Digite o nome do usuário">
+      </mat-form-field>
+    
+      <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Adicionar Usuário</button>
+    </form>
+  </div>
+  

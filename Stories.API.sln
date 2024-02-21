@@ -5,9 +5,11 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stories.API", "Stories.API\Stories.API.csproj", "{98605077-3BA5-4094-AB1B-40F3DFD72CC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Infrastructure", "Stories.Infrastructure\Stories.Infrastructure.csproj", "{3ABFDF5D-DCF1-4E9B-BF74-F045D475D47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stories.Infrastructure", "Stories.Infrastructure\Stories.Infrastructure.csproj", "{3ABFDF5D-DCF1-4E9B-BF74-F045D475D47A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Services", "Stories.Services\Stories.Services.csproj", "{17419173-009F-46DC-9DE7-CF6EBDC79288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stories.Services", "Stories.Services\Stories.Services.csproj", "{17419173-009F-46DC-9DE7-CF6EBDC79288}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.API.Test", "Stories.API.Test\Stories.API.Test.csproj", "{A0AC681F-12F1-4B4D-AC51-CB288E092574}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{17419173-009F-46DC-9DE7-CF6EBDC79288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17419173-009F-46DC-9DE7-CF6EBDC79288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17419173-009F-46DC-9DE7-CF6EBDC79288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0AC681F-12F1-4B4D-AC51-CB288E092574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0AC681F-12F1-4B4D-AC51-CB288E092574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0AC681F-12F1-4B4D-AC51-CB288E092574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0AC681F-12F1-4B4D-AC51-CB288E092574}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
