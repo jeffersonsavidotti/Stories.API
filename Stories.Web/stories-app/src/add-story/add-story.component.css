@@ -1,0 +1,41 @@
+/* Estilização do formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaçamento entre os campos e o botão */
+    max-width: 500px; /* Largura máxima do formulário */
+    margin: 0 auto; /* Centraliza o formulário na página */
+    padding: 20px; /* Espaçamento interno */
+  }
+  
+  /* Estilização dos campos do formulário (input e textarea) */
+  mat-form-field {
+    width: 100%; /* Faz com que os campos ocupem a largura total do formulário */
+  }
+  
+  /* Estilização do botão */
+  button {
+    align-self: center; /* Alinha o botão ao centro abaixo dos campos */
+    padding: 0 30px; /* Padding horizontal maior para o botão */
+  }
+  
+  /* Estilização do título */
+  h2 {
+    text-align: center; /* Centraliza o título */
+    margin-bottom: 20px; /* Espaçamento abaixo do título */
+  }
+
+  .success-message {
+    color: green;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .form-button {
+    display: flex;
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    gap: 20px; /* Espaço entre os botões */
+  }
+  
+  
+  

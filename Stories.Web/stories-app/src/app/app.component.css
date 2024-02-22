@@ -1,0 +1,84 @@
+/* Estilos gerais */
+body, h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+.header {
+    background-color: #007BFF;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Seção de conteúdo */
+.content {
+    margin-top: 20px;
+}
+
+/* Cartões de história */
+.story-card {
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.story-card:hover {
+    transform: scale(1.03);
+}
+
+.story-card h2 {
+    color: #333;
+    font-size: 1.5em;
+}
+
+.story-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Botões */
+.button {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Utilitários */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}

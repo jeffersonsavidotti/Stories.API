@@ -1,0 +1,77 @@
+.story-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Espaçamento entre os cards */
+    justify-content: center; /* Centraliza os cards horizontalmente */
+  }
+  
+  .story-card {
+    width: 100%;
+    max-width: 400px; /* Largura máxima para cada card */
+    margin: 20px; /* Adiciona margem para criar espaço ao redor dos cards */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de flutuação */
+    border-radius: 8px; /* Borda arredondada para os cards */
+    transition: transform 0.3s; /* Suaviza a transformação ao passar o mouse */
+  }
+  
+  .vote-sum {
+    position: absolute;
+    top: 10px; /* Ajuste conforme necessário */
+    right: 10px; /* Posiciona no canto superior direito */
+    background-color: #f0f0f0; /* Cor de fundo */
+    padding: 5px;
+    border-radius: 50%; /* Círculo */
+    font-weight: bold;
+  }
+
+  .form-button {
+    display: flex;
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    gap: 20px; /* Espaço entre os botões */
+  }
+  
+
+  .story-card:hover {
+    transform: translateY(-5px); /* Efeito de "levantar" ao passar o mouse */
+  }
+  
+  .mat-card-header {
+    background-color: #f5f5f5; /* Cor de fundo para o cabeçalho do card */
+    border-bottom: 1px solid #e0e0e0; /* Linha separadora */
+  }
+  
+  .mat-card-title, .mat-card-subtitle {
+    color: #333; /* Cor do texto para título e subtítulo */
+  }
+  
+  .mat-card-content {
+    padding: 16px; /* Espaçamento interno para o conteúdo do card */
+  }
+  
+  .mat-card-actions {
+    display: flex;
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    gap: 10px; /* Espaçamento entre os botões */
+  }
+  
+  button {
+    border: none; /* Remove a borda dos botões */
+    color: white; /* Cor do texto dos botões */
+    padding: 8px 16px; /* Espaçamento interno dos botões */
+    cursor: pointer; /* Muda o cursor para indicar clicabilidade */
+    border-radius: 4px; /* Borda arredondada para os botões */
+    transition: opacity 0.3s; /* Suaviza a mudança de opacidade ao passar o mouse */
+  }
+  
+  button.mat-button-positive {
+    background-color: #4CAF50; /* Verde para votos positivos */
+  }
+  
+  button.mat-button-negative {
+    background-color: #F44336; /* Vermelho para votos negativos */
+  }
+  
+  button:hover {
+    opacity: 0.8; /* Diminui a opacidade ao passar o mouse */
+  }
+  

@@ -1,0 +1,18 @@
+Minhas anotações
+
+para rodar: ng serve --proxy-config proxy.conf.json --o
+
+para rodar tests: ng test
+
+
+arquivo 'proxy.conf.json'
+
+{
+    "/api": {
+      "target": "https://localhost:7098",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  

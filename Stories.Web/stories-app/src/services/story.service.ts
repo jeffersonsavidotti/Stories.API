@@ -7,33 +7,27 @@ import { Story } from '../models/story.model'; // Ajuste o caminho conforme nece
   providedIn: 'root'
 })
 export class StoryService {
-  addStory(storyData: any) {
-    throw new Error('Method not implemented.');
-  }
-  private getAllUrl = 'http://localhost:5298/api/Story';
-  private getByIdUrl = 'http://localhost:5298/api/User';
-  // private getAllUrl = 'http://localhost:5298/api/Story';
-  // private getAllUrl = 'http://localhost:5298/api/Story';
+  private getUrl = 'https://localhost:7098/api/Story/';
 
   constructor(private http: HttpClient) { }
 
   getAllStories(): Observable<Story[]> {
-    return this.http.get<Story[]>(this.getAllUrl);
+    return this.http.get<Story[]>(this.getUrl);
   }
 
   getStoryById(id: number): Observable<Story> {
-    return this.http.get<Story>(`${this.getByIdUrl}/${id}`);
+    return this.http.get<Story>(`${this.getUrl}/${id}`);
   }
 
   createStory(story: Story): Observable<Story> {
-    return this.http.post<Story>(this.getByIdUrl, story);
+    return this.http.post<Story>(this.getUrl, story);
   }
 
   updateStory(id: number, story: Story): Observable<Story> {
-    return this.http.put<Story>(`${this.getByIdUrl}/${id}`, story);
+    return this.http.put<Story>(`${this.getUrl}/${id}`, story);
   }
 
   deleteStory(id: number): Observable<any> {
-    return this.http.delete(`${this.getByIdUrl}/${id}`);
+    return this.http.delete(`${this.getUrl}/${id}`);
   }
 }

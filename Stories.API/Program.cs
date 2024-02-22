@@ -2,7 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Stories.Services.Interfaces;
 using Stories.Services;
 using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
+// Adiciona o serviço CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 
@@ -31,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 

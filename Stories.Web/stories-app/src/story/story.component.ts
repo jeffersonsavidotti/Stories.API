@@ -1,10 +1,10 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { StoryService } from '../services/story.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Story } from '../models/story.model';
@@ -13,8 +13,8 @@ import { Story } from '../models/story.model';
   selector: 'app-story',
   templateUrl: './story.component.html',
   styleUrls: ['./story.component.css'],
-  standalone:true,
-  imports:[
+  standalone: true,
+  imports: [
     CommonModule,
     MatCardModule,
     MatIconModule,
@@ -25,14 +25,18 @@ import { Story } from '../models/story.model';
   ]
 })
 export class StoryComponent implements OnInit {
-  stories: Story[] = [];
+  @Input() story?: Story; // Usado para exibir uma única história
+  stories: Story[] = []; // Usado para exibir uma lista de histórias
 
   constructor(private storyService: StoryService) { }
 
   ngOnInit(): void {
-    this.storyService.getAllStories().subscribe({
-      next: (stories) => this.stories = stories,
-      error: (e) => console.error(e)
-    });
+    // Se nenhuma história for fornecida como @Input, busca a lista de histórias
+    if (!this.story) {
+      this.storyService.getAllStories().subscribe({
+        next: (stories) => this.stories = stories,
+        error: (e) => console.error(e)
+      });
+    }
   }
 }

@@ -1,19 +1,34 @@
 <h2>Adicionar Nova História</h2>
 <form #storyForm="ngForm" (ngSubmit)="addStory(storyForm.value)">
-  <mat-form-field appearance="fill">
-    <mat-label>Título</mat-label>
-    <input matInput ngModel name="title" required>
-  </mat-form-field>
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Título</mat-label>
+      <input matInput ngModel name="title" required>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Descrição</mat-label>
-    <textarea matInput ngModel name="description" required></textarea>
-  </mat-form-field>
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput ngModel name="description" required></textarea>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Departamento</mat-label>
-    <input matInput ngModel name="department" required>
-  </mat-form-field>
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Departamento</mat-label>
+      <input matInput ngModel name="department" required>
+    </mat-form-field>
+  </div>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Adicionar História</button>
+  <div class="form-button">
+    <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Adicionar História</button>
+    <button mat-raised-button color="secundary" (click)="goToHome()">Voltar</button>
+  </div>
+  
 </form>
+
+<!-- Mensagem de sucesso -->
+<div *ngIf="showSuccessMessage" class="success-message">
+  História adicionada com sucesso!
+</div>

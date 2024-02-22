@@ -6,7 +6,9 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { AppRoutingModule } from './app.routes';
+import { BrowserModule } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
-  providers: [importProvidersFrom(HttpClientModule), provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(), provideHttpClient(withFetch()), provideAnimationsAsync()]
+  providers: [importProvidersFrom(HttpClientModule), BrowserModule, AppRoutingModule, provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(), provideHttpClient(withFetch()), provideAnimationsAsync(), provideAnimationsAsync()]
 };
