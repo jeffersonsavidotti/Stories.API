@@ -2,6 +2,7 @@
 using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,8 +19,12 @@ namespace Stories.API.Controllers
             _voteService = voteService;
         }
 
-        // GET: api/Vote
+        /// <summary>
+        /// Obtém todos os votos.
+        /// </summary>
+        /// <response code="200">Lista de votos retornada com sucesso.</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<VoteViewModel>), 200)]
         public async Task<IActionResult> GetAllVotes()
         {
             var voteDtos = await _voteService.GetAllVotesAsync();
@@ -34,8 +39,15 @@ namespace Stories.API.Controllers
             return Ok(viewModels);
         }
 
-        // POST: api/Vote
+        /// <summary>
+        /// Cria um novo voto.
+        /// </summary>
+        /// <param name="viewModel">Dados do voto a ser criado.</param>
+        /// <response code="201">Voto criado com sucesso.</response>
+        /// <response code="400">Dados inválidos fornecidos.</response>
         [HttpPost]
+        [ProducesResponseType(typeof(VoteDTO), 201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Create([FromBody] VoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -57,7 +69,5 @@ namespace Stories.API.Controllers
             // você pode optar por retornar NoContent() como alternativa.
             return CreatedAtAction(nameof(GetAllVotes), new { id = createdVoteDto.Id }, createdVoteDto);
         }
-
-        // Métodos para Edit e Delete não são implementados neste exemplo devido à natureza imutável dos votos.
     }
 }
