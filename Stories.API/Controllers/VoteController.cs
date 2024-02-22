@@ -64,9 +64,6 @@ namespace Stories.API.Controllers
 
             var createdVoteDto = await _voteService.CreateVoteAsync(voteDto);
 
-            // Retornando o voto criado com o status 201 Created
-            // Note que, se sua API não suporta a recuperação de um voto específico, 
-            // você pode optar por retornar NoContent() como alternativa.
             return CreatedAtAction(nameof(GetAllVotes), new { id = createdVoteDto.Id }, createdVoteDto);
         }
     }

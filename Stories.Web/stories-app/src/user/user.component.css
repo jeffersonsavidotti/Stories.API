@@ -20,7 +20,7 @@
   
   .form-button {
     display: flex;
-    justify-content: center; /* Centraliza os botões horizontalmente */
-    gap: 20px; /* Espaço entre os botões */
+    justify-content: center;
+    gap: 20px
   }
   

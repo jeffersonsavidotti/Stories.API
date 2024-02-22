@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
 ]})
 export class AddStoryComponent implements OnInit {
   @ViewChild('storyForm') storyForm!: NgForm;
-  showSuccessMessage = false; // Controle para a mensagem de sucesso
+  showSuccessMessage = false;
 
   constructor(private storyService: StoryService, private router: Router) { }
 
@@ -36,14 +36,14 @@ export class AddStoryComponent implements OnInit {
     this.storyService.createStory(storyData).subscribe({
       next: (response) => {
         console.log('História adicionada', response);
-        this.showSuccessMessage = true; // Mostra a mensagem de sucesso
-        this.storyForm.resetForm(); // Limpa o formulário
-        setTimeout(() => this.showSuccessMessage = false, 3000); // Esconde a mensagem após 3 segundos
+        this.showSuccessMessage = true; 
+        this.storyForm.resetForm();
+        setTimeout(() => this.showSuccessMessage = false, 3000);
       },
       error: (error) => console.error('Erro ao adicionar história', error)
     });
   }
-  // Navigate to the users page
+  
   goToHome() {
   this.router.navigate(['/stories']);
   }

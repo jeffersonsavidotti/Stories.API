@@ -1,4 +1,3 @@
-// user.component.ts
 import { UserService } from '../services/user.service';
 import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,7 +28,7 @@ import { Router } from '@angular/router';
 ]})
 export class UserComponent {
   @ViewChild('userForm') userForm!: NgForm;
-  showSuccessMessage: boolean = false; // Propriedade para controlar a exibição da mensagem de sucesso
+  showSuccessMessage: boolean = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -37,15 +36,14 @@ export class UserComponent {
     this.userService.addUser(userFormData).subscribe({
       next: (res) => {
         console.log('Usuário adicionado', res);
-        this.showSuccessMessage = true; // Exibe a mensagem de sucesso
-        setTimeout(() => this.showSuccessMessage = false, 3000); // Esconde a mensagem após 3 segundos
-        this.userForm.resetForm(); // Limpa os campos do formulário
+        this.showSuccessMessage = true;
+        setTimeout(() => this.showSuccessMessage = false, 3000);
+        this.userForm.resetForm();
       },
       error: (e) => console.error(e)
     });
   }
 
-  // Navigate to the users page
   goToHome() {
     this.router.navigate(['/stories']);
     }

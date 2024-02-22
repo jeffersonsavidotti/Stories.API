@@ -4,21 +4,23 @@ import { StoryComponent } from '../story/story.component';
 import { AddStoryComponent } from '../add-story/add-story.component';
 import { UserComponent } from '../user/user.component';
 import { StoryListComponent } from '../story-list/story-list.component';
+import { UpdateStoryComponent } from '../update-story/update-story.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, // Usado para roteamento
-    StoryComponent, // Componente de história individual
-    AddStoryComponent, // Componente para adicionar uma nova história
-    UserComponent, // Componente para gerenciamento de usuário
-    StoryListComponent // Componente para listar todas as histórias
+    RouterOutlet, //roteamento
+    StoryComponent, 
+    AddStoryComponent, 
+    UserComponent, 
+    StoryListComponent,
+    UpdateStoryComponent
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // Especifica os estilos para o AppComponent
+  styleUrls: ['./app.component.css'] 
 })
 export class AppComponent {
-  title = 'stories-app'; // Título do aplicativo, pode ser usado no template
+  title = 'stories-app';
 }

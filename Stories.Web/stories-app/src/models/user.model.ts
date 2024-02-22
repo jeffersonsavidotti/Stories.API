@@ -1,8 +1,8 @@
 export class User {
-    id?: number; // O "?" indica que o campo é opcional, útil para criações onde o ID ainda não existe
+    id?: number;
     name: string;
-    positiveVotesCount?: number; // Opcional, dependendo de como você quer lidar com votos
-    negativeVotesCount?: number; // Opcional, dependendo de como você quer lidar com votos
+    positiveVotesCount?: number;
+    negativeVotesCount?: number;
   
     constructor(name: string) {
       this.name = name;

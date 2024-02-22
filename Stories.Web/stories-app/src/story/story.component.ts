@@ -25,13 +25,12 @@ import { Story } from '../models/story.model';
   ]
 })
 export class StoryComponent implements OnInit {
-  @Input() story?: Story; // Usado para exibir uma única história
-  stories: Story[] = []; // Usado para exibir uma lista de histórias
+  @Input() story?: Story;
+  stories: Story[] = [];
 
   constructor(private storyService: StoryService) { }
 
   ngOnInit(): void {
-    // Se nenhuma história for fornecida como @Input, busca a lista de histórias
     if (!this.story) {
       this.storyService.getAllStories().subscribe({
         next: (stories) => this.stories = stories,

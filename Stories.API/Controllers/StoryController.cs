@@ -34,7 +34,7 @@ namespace Stories.API.Controllers
                 Title = dto.Title,
                 Description = dto.Description,
                 Department = dto.Department,
-                PositiveVotesCount = dto.PositiveVotesCount, // Ajustado para incluir contagens de votos
+                PositiveVotesCount = dto.PositiveVotesCount,
                 NegativeVotesCount = dto.NegativeVotesCount,
             }).ToList();
 
@@ -124,7 +124,6 @@ namespace Stories.API.Controllers
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 Department = viewModel.Department,
-                // As contagens de votos são gerenciadas separadamente
             };
 
             var updatedStoryDto = await _storyService.UpdateStoryAsync(id, storyDto);

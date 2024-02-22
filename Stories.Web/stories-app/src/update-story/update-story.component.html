@@ -1,5 +1,8 @@
-<h2>Adicionar Nova História</h2>
-<form #storyForm="ngForm" (ngSubmit)="addStory(storyForm.value)">
+<h2>Atualizar História</h2>
+<form #storyForm="ngForm" (ngSubmit)="updateStory(storyForm.value)">
+  <input type="hidden" ngModel name="id" [value]="storyId">
+
+  <!-- Campo Título -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Título</mat-label>
@@ -7,6 +10,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Campo Descrição -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Descrição</mat-label>
@@ -14,6 +18,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Campo Departamento -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Departamento</mat-label>
@@ -21,13 +26,14 @@
     </mat-form-field>
   </div>
 
+  <!-- Botões de Ação -->
   <div class="form-button">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Adicionar História</button>
-    <button mat-raised-button color="secundary" (click)="goToHome()">Voltar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Atualizar História</button>
+    <button mat-raised-button color="secondary" (click)="goToHome()">Voltar</button>
   </div>
-  
 </form>
 
+<!-- Mensagem de Sucesso -->
 <div *ngIf="showSuccessMessage" class="success-message">
-  História adicionada com sucesso!
+  História atualizada com sucesso!
 </div>

@@ -31,7 +31,6 @@ namespace Stories.API.Controllers
             {
                 Id = dto.Id,
                 Name = dto.Name,
-                // Atualizado para refletir a estrutura atual do UserDTO
                 PositiveVotesCount = dto.PositiveVotesCount,
                 NegativeVotesCount = dto.NegativeVotesCount
             }).ToList();
@@ -60,7 +59,6 @@ namespace Stories.API.Controllers
             {
                 Id = userDto.Id,
                 Name = userDto.Name,
-                // Reflete a estrutura atual do UserDTO
                 PositiveVotesCount = userDto.PositiveVotesCount,
                 NegativeVotesCount = userDto.NegativeVotesCount
             };
@@ -87,11 +85,10 @@ namespace Stories.API.Controllers
             var userDto = new UserDTO
             {
                 Name = viewModel.Name
-                // Informações sobre votos são gerenciadas separadamente
             };
 
             var createdUserDto = await _userService.CreateUserAsync(userDto);
-            // Retorna o usuário criado com o status 201 Created
+
             return CreatedAtAction(nameof(GetById), new { id = createdUserDto.Id }, createdUserDto);
         }
 
@@ -118,7 +115,6 @@ namespace Stories.API.Controllers
             {
                 Id = viewModel.Id,
                 Name = viewModel.Name
-                // Informações sobre votos são gerenciadas separadamente
             };
 
             var updatedUserDto = await _userService.UpdateUserAsync(id, userDto);
@@ -127,7 +123,6 @@ namespace Stories.API.Controllers
                 return NotFound();
             }
 
-            // Resposta NoContent (204) após a atualização bem-sucedida
             return NoContent();
         }
 
@@ -147,7 +142,7 @@ namespace Stories.API.Controllers
             {
                 return NotFound();
             }
-            return NoContent(); // Retorna 204 No Content para indicar sucesso na operação de delete
+            return NoContent();
         }
     }
 }

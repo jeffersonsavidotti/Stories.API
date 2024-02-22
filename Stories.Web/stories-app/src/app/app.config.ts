@@ -9,6 +9,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AppRoutingModule } from './app.routes';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 export const appConfig: ApplicationConfig = {
-  providers: [importProvidersFrom(HttpClientModule), BrowserModule, AppRoutingModule, provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(), provideHttpClient(withFetch()), provideAnimationsAsync(), provideAnimationsAsync()]
+  providers: [importProvidersFrom(HttpClientModule), HttpClientModule, BrowserModule, AppRoutingModule, provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(), provideHttpClient(withFetch()), provideAnimationsAsync(), provideAnimationsAsync()]
 };

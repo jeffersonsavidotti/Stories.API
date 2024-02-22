@@ -11,27 +11,27 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  // Buscar todos os usuários
+  //GetAll
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  // Buscar um usuário por ID
+  // GetByid
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
-  // Adicionar um novo usuário
+  //AddUser
   addUser(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  // Atualizar um usuário existente
+  // UpdateUser
   updateUser(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user);
   }
 
-  // Excluir um usuário
+  // DeleteUser
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
