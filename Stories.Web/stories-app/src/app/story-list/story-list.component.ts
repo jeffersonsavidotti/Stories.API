@@ -1,10 +1,10 @@
-import { StoryService } from '../services/story.service';
-import { Story } from '../models/story.model';
+import { StoryService } from '../../services/story.service';
+import { Story } from '../../models/story.model';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { VoteService } from '../services/vote.service';
-import { User } from '../models/user.model';
-import { Vote } from '../models/vote.model';
+import { UserService } from '../../services/user.service';
+import { VoteService } from '../../services/vote.service';
+import { User } from '../../models/user.model';
+import { Vote } from '../../models/vote.model';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,29 +38,24 @@ export class StoryListComponent implements OnInit {
   users: User[] = [];
   selectedUserId: number | null = null;
   showVoteSuccess: boolean = false;
-  storyId?: number;
-  isUpdateMode = false;
 
   constructor(
     private storyService: StoryService,
     private userService: UserService,
     private voteService: VoteService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.loadStories();
     this.loadUsers();
-    this.storyId = this.route.snapshot.params['storyId'];
-    this.isUpdateMode = !!this.storyId;
   }
 
   loadStories() {
     this.storyService.getAllStories().subscribe({
       next: (stories) => {
         this.stories = stories;
-        this.filteredStories = stories; // Inicializa o filtro com todas as histórias
+        this.filteredStories = stories;
       },
       error: (error) => console.error('Erro ao carregar histórias', error),
     });
@@ -71,11 +66,10 @@ export class StoryListComponent implements OnInit {
       next: (users) => this.users = users,
       error: (error) => console.error('Erro ao carregar usuários', error)
     });
-  }bambuvbri
+  }
 
   vote(storyId: number, isPositive: boolean) {
     if (!this.selectedUserId) {
-      alert('É necessário selecionar um usúario');
       console.error('Nenhum usuário selecionado');
       return;
     }
@@ -87,7 +81,7 @@ export class StoryListComponent implements OnInit {
         console.log('Voto registrado com sucesso');
         this.showVoteSuccess = true;
         setTimeout(() => this.showVoteSuccess = false, 3000);
-        this.loadStories(); // Recarrega histórias para atualizar votos
+        this.loadStories();
       },
       error: (error) => console.error('Erro ao registrar voto', error)
     });
@@ -113,17 +107,11 @@ export class StoryListComponent implements OnInit {
       );
     }
   }
-  // Método para atualizar uma história
+
   updateStory(storyId: number) {
     this.router.navigate(['/update-story', storyId]);
   }
 
-  // Método para adicionar ou atualizar a história
-  submitStory(formValue: any) {
-    this.router.navigate(['/update-story', this.storyId]);
-  }
-
-  // Método para deletar uma história
   deleteStory(storyId: number) {
     if (confirm('Tem certeza que deseja deletar esta história?')) {
       this.storyService.deleteStory(storyId).subscribe({

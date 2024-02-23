@@ -38,7 +38,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with votes
                 var votes = new List<Vote>
                 {
                     new Vote { IdStory = 1, IdUser = 1, VoteValue = true },
@@ -69,7 +68,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a vote
                 var vote = new Vote { IdStory = 1, IdUser = 1, VoteValue = true };
                 context.Votes.Add(vote);
                 context.SaveChanges();
@@ -95,7 +93,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a vote
                 var vote = new Vote { IdStory = 1, IdUser = 1, VoteValue = true };
                 context.Votes.Add(vote);
                 context.SaveChanges();
@@ -107,7 +104,7 @@ namespace Stories.Services.Tests
 
                 // Assert
                 Assert.True(result);
-                Assert.Null(context.Votes.Find(vote.Id)); // Check if vote is removed from database
+                Assert.Null(context.Votes.Find(vote.Id));
             }
         }
     }

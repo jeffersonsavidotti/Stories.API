@@ -2,9 +2,6 @@
 using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stories.Services
 {
@@ -22,36 +19,32 @@ namespace Stories.Services
             var user = new User
             {
                 Name = userDto.Name,
-                // Inicialização de Votes é implícita, gerenciados separadamente
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Atualiza o DTO com o ID gerado
             userDto.Id = user.Id;
-            return new UserDTO(user); // Assume que UserDTO pode ser construído a partir de User
+            return new UserDTO(user);
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
         {
             var user = await _context.Users
-                .Include(u => u.Votes) // Inclui votos para cálculo das contagens
+                .Include(u => u.Votes)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null) return null;
 
-            // Constrói o DTO, que agora inclui a lógica para contabilizar votos
             return new UserDTO(user);
         }
 
         public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
         {
             var users = await _context.Users
-                .Include(u => u.Votes) // Inclui votos para cálculo das contagens
+                .Include(u => u.Votes)
                 .ToListAsync();
 
-            // Converte cada usuário para UserDTO, contabilizando os votos
             return users.Select(u => new UserDTO(u)).ToList();
         }
 
@@ -61,11 +54,9 @@ namespace Stories.Services
             if (user == null) return null;
 
             user.Name = userDto.Name;
-            // Atualizações de Votes são gerenciadas separadamente
 
             await _context.SaveChangesAsync();
 
-            // Retorna o DTO atualizado, possivelmente com contagens recalculadas
             return new UserDTO(user);
         }
 

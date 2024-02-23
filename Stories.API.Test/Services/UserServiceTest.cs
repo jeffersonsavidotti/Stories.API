@@ -39,7 +39,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a user
                 var user = new User { Name = "Test User" };
                 context.Users.Add(user);
                 context.SaveChanges();
@@ -66,7 +65,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with users
                 var users = new List<User>
                 {
                     new User { Name = "User 1" },
@@ -101,7 +99,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a user
                 var user = new User { Name = "Test User" };
                 context.Users.Add(user);
                 context.SaveChanges();
@@ -129,7 +126,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a user
                 var user = new User { Name = "Test User" };
                 context.Users.Add(user);
                 context.SaveChanges();
@@ -141,7 +137,7 @@ namespace Stories.Services.Tests
 
                 // Assert
                 Assert.True(result);
-                Assert.Null(context.Users.Find(user.Id)); // Check if user is removed from database
+                Assert.Null(context.Users.Find(user.Id));
             }
         }
     }

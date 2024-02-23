@@ -7,7 +7,7 @@ import { Story } from '../models/story.model';
   providedIn: 'root'
 })
 export class StoryService {
-  private getUrl = 'https://localhost:7098/api/Story/';
+  private getUrl = 'https://localhost:7098/api/Story';
 
   constructor(private http: HttpClient) { }
   //GetAllstories
@@ -28,6 +28,6 @@ export class StoryService {
   }
   //Delete
   deleteStory(id: number): Observable<any> {
-    return this.http.delete(`${this.getUrl}${id}`);
+    return this.http.delete(`${this.getUrl}/${id}`);
   }
 }

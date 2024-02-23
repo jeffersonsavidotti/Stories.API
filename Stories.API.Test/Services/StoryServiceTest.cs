@@ -135,7 +135,6 @@ namespace Stories.Services.Tests
 
             using (var context = new AppDbContext(options))
             {
-                // Seed the database with a story
                 var story = new Story { Title = "Test Story", Description = "Test Description", Department = "Test Department" };
                 context.Stories.Add(story);
                 context.SaveChanges();
@@ -147,7 +146,7 @@ namespace Stories.Services.Tests
 
                 // Assert
                 Assert.True(result);
-                Assert.Null(context.Stories.Find(story.Id)); // Check if story is removed from database
+                Assert.Null(context.Stories.Find(story.Id));
             }
         }
     }
