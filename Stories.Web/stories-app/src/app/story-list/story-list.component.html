@@ -24,7 +24,7 @@
   <mat-card *ngFor="let story of filteredStories" class="story-card">
     <mat-card-header>
       <div class="vote-sum">{{ (story.positiveVotesCount ?? 0) - (story.negativeVotesCount ?? 0) }}</div>
-      <mat-card-title>ID: {{ story.id }} - {{ story.title }}</mat-card-title>
+      <mat-card-title>História: {{ story.id }} - {{ story.title }}</mat-card-title>
       <mat-card-subtitle>{{ story.department }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
