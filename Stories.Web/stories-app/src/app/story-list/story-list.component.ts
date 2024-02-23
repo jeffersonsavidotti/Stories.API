@@ -58,7 +58,7 @@ export class StoryListComponent implements OnInit {
         this.stories = stories.sort((a, b) => {
           const voteSumA = (a.positiveVotesCount ?? 0) - (a.negativeVotesCount ?? 0);
           const voteSumB = (b.positiveVotesCount ?? 0) - (b.negativeVotesCount ?? 0);
-          return voteSumB - voteSumA; // Para ordem decrescente
+          return voteSumB - voteSumA;
         });
         this.applyFilters();
       },
