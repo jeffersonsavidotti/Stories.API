@@ -70,6 +70,7 @@ export class StoryListComponent implements OnInit {
 
   vote(storyId: number, isPositive: boolean) {
     if (!this.selectedUserId) {
+      alert("Escolha um usuário para votar");
       console.error('Nenhum usuário selecionado');
       return;
     }

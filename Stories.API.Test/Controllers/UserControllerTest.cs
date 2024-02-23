@@ -9,6 +9,7 @@ namespace Stories.API.Tests.Controllers
 {
     public class UserControllerTests
     {
+        //GetAll
         [Fact]
         public async Task GetAllUsers_ReturnsOkResult()
         {
@@ -26,6 +27,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
+        //Get
         [Fact]
         public async Task GetById_WithValidId_ReturnsOkResult()
         {
@@ -44,6 +46,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
+        //Add
         [Fact]
         public async Task Create_WithValidModel_ReturnsCreatedAtActionResult()
         {
@@ -53,7 +56,7 @@ namespace Stories.API.Tests.Controllers
                        .ReturnsAsync(new UserDTO());
 
             var controller = new UserController(mockService.Object);
-            var viewModel = new UserViewModel { Name = "Test User" };
+            var viewModel = new UserViewModel { Name = "Jefferson" };
 
             // Act
             var result = await controller.Create(viewModel);
@@ -62,6 +65,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<CreatedAtActionResult>(result);
         }
 
+        //Update
         [Fact]
         public async Task Edit_WithValidModel_ReturnsNoContentResult()
         {
@@ -72,7 +76,7 @@ namespace Stories.API.Tests.Controllers
                        .ReturnsAsync(new UserDTO());
 
             var controller = new UserController(mockService.Object);
-            var viewModel = new UserViewModel { Id = userId, Name = "Updated Test User" };
+            var viewModel = new UserViewModel { Id = userId, Name = "Jefferson Savidotti" };
 
             // Act
             var result = await controller.Edit(userId, viewModel);
@@ -81,6 +85,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<NoContentResult>(result);
         }
 
+        //Delte
         [Fact]
         public async Task Delete_WithValidId_ReturnsNoContentResult()
         {

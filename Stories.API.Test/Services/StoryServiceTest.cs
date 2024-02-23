@@ -6,6 +6,7 @@ namespace Stories.Services.Tests
 {
     public class StoryServiceTests
     {
+        //Add
         [Fact]
         public async Task CreateStoryAsync_ReturnsStoryDto()
         {
@@ -31,6 +32,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //GetById
         [Fact]
         public async Task GetStoryByIdAsync_WithValidId_ReturnsStoryDto()
         {
@@ -60,6 +62,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //GetAlll
         [Fact]
         public async Task GetAllStoriesAsync_ReturnsListOfStoryDtos()
         {
@@ -95,6 +98,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //Update
         [Fact]
         public async Task UpdateStoryAsync_WithValidId_ReturnsUpdatedStoryDto()
         {
@@ -125,6 +129,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //Delete
         [Fact]
         public async Task DeleteStoryAsync_WithValidId_ReturnsTrue()
         {

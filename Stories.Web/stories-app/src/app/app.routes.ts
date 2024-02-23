@@ -12,7 +12,7 @@ export const routes: Routes = [
     {path: 'story', component: StoryComponent},
     { path: 'add-story', component: AddStoryComponent },
     { path: 'update-story/:id', component: UpdateStoryComponent },
-    { path: '', redirectTo: '/stories', pathMatch: 'full' } // Redireciona a rotaa raiz para '/stories'
+    { path: '', redirectTo: '/stories', pathMatch: 'full' } // Redirecionei como rotaa raiz para '/stories'
   ];
 
   @NgModule({

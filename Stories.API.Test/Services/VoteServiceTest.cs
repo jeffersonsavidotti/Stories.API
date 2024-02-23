@@ -6,6 +6,7 @@ namespace Stories.Services.Tests
 {
     public class VoteServiceTests
     {
+        //Add
         [Fact]
         public async Task CreateVoteAsync_ReturnsVoteDtoWithId()
         {
@@ -28,6 +29,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //GetAll
         [Fact]
         public async Task GetAllVotesAsync_ReturnsListOfVoteDtos()
         {
@@ -57,7 +59,7 @@ namespace Stories.Services.Tests
                 Assert.Equal(votes.Count, allVotes.Count());
             }
         }
-
+        //GetById
         [Fact]
         public async Task GetVoteByIdAsync_WithValidId_ReturnsVoteDto()
         {
@@ -83,6 +85,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //Delete (Não implementei na controller)
         [Fact]
         public async Task DeleteVoteAsync_WithValidId_ReturnsTrue()
         {

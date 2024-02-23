@@ -2,9 +2,6 @@
 using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stories.API.Controllers
 {
@@ -20,7 +17,7 @@ namespace Stories.API.Controllers
         }
 
         /// <summary>
-        /// Obtém todos os votos.
+        /// Obtem todos os votos.
         /// </summary>
         /// <response code="200">Lista de votos retornada com sucesso.</response>
         [HttpGet]

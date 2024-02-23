@@ -55,7 +55,7 @@ describe('StoryService', () => {
     const newStory: Story = { id: 0, title: 'New Story', description: 'New Description', department: 'New Department', positiveVotesCount: 0, negativeVotesCount: 0 };
 
     service.createStory(newStory).subscribe(story => {
-      expect(story).toEqual({...newStory, id: 3}); // Assuming the backend assigns id 3 to the new story
+      expect(story).toEqual({...newStory, id: 3});
     });
 
     const req = httpTestingController.expectOne(testUrl);

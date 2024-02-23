@@ -9,6 +9,7 @@ namespace Stories.API.Tests.Controllers
 {
     public class StoryControllerTests
     {
+        // GetAll
         [Fact]
         public async Task GetAllStories_ReturnsOkResult()
         {
@@ -26,6 +27,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
+        //GetId
         [Fact]
         public async Task GetById_WithValidId_ReturnsOkResult()
         {
@@ -44,6 +46,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
+        //Add
         [Fact]
         public async Task Create_WithValidModel_ReturnsCreatedAtActionResult()
         {
@@ -53,7 +56,7 @@ namespace Stories.API.Tests.Controllers
                        .ReturnsAsync(new StoryDTO());
 
             var controller = new StoryController(mockService.Object);
-            var viewModel = new StoryViewModel { Title = "Test", Description = "Test Description", Department = "Test Department" };
+            var viewModel = new StoryViewModel { Title = "Projeto API", Description = "Desenvolver em 15 dias", Department = "Dev" };
 
             // Act
             var result = await controller.Create(viewModel);
@@ -62,6 +65,8 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<CreatedAtActionResult>(result);
         }
 
+
+        // Update
         [Fact]
         public async Task Edit_WithValidModel_ReturnsNoContentResult()
         {
@@ -72,7 +77,7 @@ namespace Stories.API.Tests.Controllers
                        .ReturnsAsync(new StoryDTO());
 
             var controller = new StoryController(mockService.Object);
-            var viewModel = new StoryViewModel { Id = storyId, Title = "Test", Description = "Test Description", Department = "Test Department" };
+            var viewModel = new StoryViewModel { Id = storyId, Title = "Projeto API", Description = "Desenvolver em 15 dias", Department = "Dev" };
 
             // Act
             var result = await controller.Edit(storyId, viewModel);
@@ -81,6 +86,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<NoContentResult>(result);
         }
 
+        //Delete
         [Fact]
         public async Task Delete_WithValidId_ReturnsNoContentResult()
         {

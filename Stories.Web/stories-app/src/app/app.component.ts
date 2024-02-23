@@ -11,7 +11,7 @@ import { UpdateStoryComponent } from './update-story/update-story.component';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, //roteamento
+    RouterOutlet,
     StoryComponent,
     AddStoryComponent,
     UserComponent,

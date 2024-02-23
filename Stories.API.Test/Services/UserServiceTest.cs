@@ -6,6 +6,7 @@ namespace Stories.Services.Tests
 {
     public class UserServiceTests
     {
+        //Add
         [Fact]
         public async Task CreateUserAsync_ReturnsUserDtoWithId()
         {
@@ -29,6 +30,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //GetById
         [Fact]
         public async Task GetUserByIdAsync_WithValidId_ReturnsUserDto()
         {
@@ -55,6 +57,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //GetAll
         [Fact]
         public async Task GetAllUsersAsync_ReturnsListOfUserDtos()
         {
@@ -89,6 +92,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //Update
         [Fact]
         public async Task UpdateUserAsync_WithValidId_ReturnsUpdatedUserDto()
         {
@@ -116,6 +120,7 @@ namespace Stories.Services.Tests
             }
         }
 
+        //Delete
         [Fact]
         public async Task DeleteUserAsync_WithValidId_ReturnsTrue()
         {

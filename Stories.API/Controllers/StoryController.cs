@@ -2,9 +2,6 @@
 using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stories.API.Controllers
 {
@@ -20,7 +17,7 @@ namespace Stories.API.Controllers
         }
 
         /// <summary>
-        /// Obtém todas as histórias.
+        /// Obtem todas as histórias.
         /// </summary>
         /// <response code="200">Lista de histórias retornada com sucesso.</response>
         [HttpGet]
@@ -42,7 +39,7 @@ namespace Stories.API.Controllers
         }
 
         /// <summary>
-        /// Obtém uma história por ID.
+        /// Obtem uma história por ID.
         /// </summary>
         /// <param name="id">ID da história.</param>
         /// <response code="200">História encontrada com sucesso.</response>

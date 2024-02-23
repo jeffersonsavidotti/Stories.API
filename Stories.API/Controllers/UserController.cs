@@ -2,8 +2,6 @@
 using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stories.API.Controllers
 {
@@ -19,7 +17,7 @@ namespace Stories.API.Controllers
         }
 
         /// <summary>
-        /// Obtém todos os usuários.
+        /// Obtem todos os usuários.
         /// </summary>
         /// <response code="200">Lista de usuários retornada com sucesso.</response>
         [HttpGet]
@@ -39,7 +37,7 @@ namespace Stories.API.Controllers
         }
 
         /// <summary>
-        /// Obtém um usuário por ID.
+        /// Obtem um usuario por ID.
         /// </summary>
         /// <param name="id">ID do usuário.</param>
         /// <response code="200">Usuário encontrado com sucesso.</response>

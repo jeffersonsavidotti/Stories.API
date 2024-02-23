@@ -9,6 +9,7 @@ namespace Stories.API.Tests.Controllers
 {
     public class VoteControllerTests
     {
+        //Get all
         [Fact]
         public async Task GetAllVotes_ReturnsOkResult()
         {
@@ -26,6 +27,7 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
+        //Add
         [Fact]
         public async Task Create_WithValidModel_ReturnsCreatedAtActionResult()
         {
