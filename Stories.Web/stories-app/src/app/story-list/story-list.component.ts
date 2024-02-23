@@ -55,12 +55,30 @@ export class StoryListComponent implements OnInit {
   loadStories() {
     this.storyService.getAllStories().subscribe({
       next: (stories) => {
-        this.stories = stories;
-        this.filteredStories = stories;
+        this.stories = stories.sort((a, b) => {
+          const voteSumA = (a.positiveVotesCount ?? 0) - (a.negativeVotesCount ?? 0);
+          const voteSumB = (b.positiveVotesCount ?? 0) - (b.negativeVotesCount ?? 0);
+          return voteSumB - voteSumA; // Para ordem decrescente
+        });
+        this.applyFilters();
       },
       error: (error) => console.error('Erro ao carregar histórias', error),
     });
   }
+
+  applyFilters() {
+    if (!this.searchText.trim()) {
+      this.filteredStories = this.stories;
+    } else {
+      this.filteredStories = this.stories.filter(story =>
+        story.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        story.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        story.department.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        (story.id?.toString().includes(this.searchText))
+      );
+    }
+  }
+
 
   loadUsers() {
     this.userService.getAllUsers().subscribe({
@@ -98,6 +116,7 @@ export class StoryListComponent implements OnInit {
   }
 
   searchStories() {
+    this.applyFilters();
     if (!this.searchText.trim()) {
       this.filteredStories = this.stories;
     } else {
