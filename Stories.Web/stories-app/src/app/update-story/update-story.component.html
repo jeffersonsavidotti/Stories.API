@@ -1,39 +1,39 @@
 <h2>Atualizar História</h2>
-<form #storyForm="ngForm" (ngSubmit)="updateStory(storyForm.value)">
-  <input type="hidden" ngModel name="id" [value]="storyId">
+<form #storyForm="ngForm" (ngSubmit)="updateStory()">
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>ID</mat-label>
+      <input matInput [(ngModel)]="story.id" name="id" disabled>
+    </mat-form-field>
+  </div>
 
-  <!-- Campo Título -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Título</mat-label>
-      <input matInput ngModel name="title" required>
+      <input matInput [(ngModel)]="story.title" name="title" required>
     </mat-form-field>
   </div>
 
-  <!-- Campo Descrição -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Descrição</mat-label>
-      <textarea matInput ngModel name="description" required></textarea>
+      <textarea matInput [(ngModel)]="story.description" name="description" required></textarea>
     </mat-form-field>
   </div>
 
-  <!-- Campo Departamento -->
   <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Departamento</mat-label>
-      <input matInput ngModel name="department" required>
+      <input matInput [(ngModel)]="story.department" name="department" required>
     </mat-form-field>
   </div>
 
-  <!-- Botões de Ação -->
   <div class="form-button">
     <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Atualizar História</button>
     <button mat-raised-button color="secondary" (click)="goToHome()">Voltar</button>
   </div>
 </form>
 
-<!-- Mensagem de Sucesso -->
 <div *ngIf="showSuccessMessage" class="success-message">
   História atualizada com sucesso!
 </div>

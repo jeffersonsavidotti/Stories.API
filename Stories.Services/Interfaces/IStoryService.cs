@@ -1,7 +1,4 @@
-﻿using Stories.Infrastructure.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Stories.Services.DTOs;
+﻿using Stories.Services.DTOs;
 
 namespace Stories.Services.Interfaces
 {

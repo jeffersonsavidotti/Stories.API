@@ -1,5 +1,4 @@
-﻿using Stories.Infrastructure.Models;
-using Stories.Services.DTOs;
+﻿using Stories.Services.DTOs;
 
 namespace Stories.Services.Interfaces
 {

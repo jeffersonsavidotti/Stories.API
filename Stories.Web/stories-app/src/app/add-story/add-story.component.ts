@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
-import { StoryService } from '../services/story.service';
+import { StoryService } from '../../services/story.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,14 +36,14 @@ export class AddStoryComponent implements OnInit {
     this.storyService.createStory(storyData).subscribe({
       next: (response) => {
         console.log('História adicionada', response);
-        this.showSuccessMessage = true; 
+        this.showSuccessMessage = true;
         this.storyForm.resetForm();
         setTimeout(() => this.showSuccessMessage = false, 3000);
       },
       error: (error) => console.error('Erro ao adicionar história', error)
     });
   }
-  
+
   goToHome() {
   this.router.navigate(['/stories']);
   }

@@ -2,9 +2,6 @@
 using Stories.Infrastructure.Models;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stories.Services
 {
@@ -29,7 +26,6 @@ namespace Stories.Services
             _context.Votes.Add(vote);
             await _context.SaveChangesAsync();
 
-            // Atualizar as contagens na Story
             var story = await _context.Stories.FindAsync(voteDto.IdStory);
             if (story != null)
             {
@@ -44,7 +40,7 @@ namespace Stories.Services
                 await _context.SaveChangesAsync();
             }
 
-            voteDto.Id = vote.Id; // Atualize o ID após salvar
+            voteDto.Id = vote.Id;
             return voteDto;
         }
 
@@ -90,7 +86,6 @@ namespace Stories.Services
 
             _context.Votes.Remove(vote);
 
-            // Atualizar as contagens na Story
             var story = await _context.Stories.FindAsync(vote.IdStory);
             if (story != null)
             {

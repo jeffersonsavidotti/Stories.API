@@ -92,7 +92,6 @@ namespace Stories.API.Controllers
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 Department = viewModel.Department,
-                // A criação não envolve diretamente contagens de votos
             };
 
             var createdStoryDto = await _storyService.CreateStoryAsync(storyDto);

@@ -1,5 +1,4 @@
 ﻿using Stories.Infrastructure.Models;
-using System.Linq; // Necessário para o uso de LINQ
 
 namespace Stories.Services.DTOs
 {
@@ -14,14 +13,12 @@ namespace Stories.Services.DTOs
 
         public StoryDTO() { }
 
-        // Construtor que mapeia uma instância de Story para StoryDTO
         public StoryDTO(Story story)
         {
             Id = story.Id;
             Title = story.Title;
             Description = story.Description;
             Department = story.Department;
-            // Calcula a contagem de votos positivos e negativos
             PositiveVotesCount = story.Votes?.Count(v => v.VoteValue) ?? 0;
             NegativeVotesCount = story.Votes?.Count(v => !v.VoteValue) ?? 0;
         }

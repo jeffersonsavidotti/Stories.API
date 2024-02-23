@@ -3,9 +3,6 @@ using Stories.API.Controllers;
 using Stories.API.Applications.ViewModels;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Stories.API.Tests.Controllers

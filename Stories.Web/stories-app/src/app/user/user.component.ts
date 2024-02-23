@@ -1,4 +1,4 @@
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
