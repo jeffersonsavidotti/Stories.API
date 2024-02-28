@@ -25,10 +25,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Vote>(entity =>
         {
             entity.ToTable("Votes");
-            entity.HasKey(e => e.Id);
+            entity.HasKey("Id");
             entity.Property(e => e.VoteValue).IsRequired();
-            entity.HasOne(e => e.Story).WithMany(s => s.Votes).HasForeignKey(e => e.IdStory);
-            entity.HasOne(e => e.User).WithMany(u => u.Votes).HasForeignKey(e => e.IdUser);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -36,8 +34,6 @@ public class AppDbContext : DbContext
             entity.ToTable("Users");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
-            entity.Property(e => e.PositiveVotesCount).HasDefaultValue(0);
-            entity.Property(e => e.NegativeVotesCount).HasDefaultValue(0);
         });
     }
 }

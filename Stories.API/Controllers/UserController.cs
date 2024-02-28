@@ -5,7 +5,7 @@ using Stories.Services.Interfaces;
 
 namespace Stories.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -28,9 +28,7 @@ namespace Stories.API.Controllers
             var viewModels = userDtos.Select(dto => new UserViewModel
             {
                 Id = dto.Id,
-                Name = dto.Name,
-                PositiveVotesCount = dto.PositiveVotesCount,
-                NegativeVotesCount = dto.NegativeVotesCount
+                Name = dto.Name
             }).ToList();
 
             return Ok(viewModels);
@@ -45,7 +43,7 @@ namespace Stories.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserViewModel), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
             if (userDto == null)
@@ -56,9 +54,7 @@ namespace Stories.API.Controllers
             var viewModel = new UserViewModel
             {
                 Id = userDto.Id,
-                Name = userDto.Name,
-                PositiveVotesCount = userDto.PositiveVotesCount,
-                NegativeVotesCount = userDto.NegativeVotesCount
+                Name = userDto.Name
             };
 
             return Ok(viewModel);
@@ -102,7 +98,7 @@ namespace Stories.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Edit(int id, [FromBody] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] UserViewModel viewModel)
         {
             if (id != viewModel.Id || !ModelState.IsValid)
             {
@@ -133,7 +129,7 @@ namespace Stories.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             bool success = await _userService.DeleteUserAsync(id);
             if (!success)

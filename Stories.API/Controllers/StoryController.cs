@@ -5,7 +5,7 @@ using Stories.Services.Interfaces;
 
 namespace Stories.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/stories")]
     [ApiController]
     public class StoryController : ControllerBase
     {
@@ -47,7 +47,7 @@ namespace Stories.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(StoryViewModel), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var storyDto = await _storyService.GetStoryByIdAsync(id);
             if (storyDto == null)
@@ -107,7 +107,7 @@ namespace Stories.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Edit(int id, [FromBody] StoryViewModel viewModel)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] StoryViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -140,7 +140,7 @@ namespace Stories.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var success = await _storyService.DeleteStoryAsync(id);
             if (!success)

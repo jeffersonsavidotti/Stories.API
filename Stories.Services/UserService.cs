@@ -28,10 +28,9 @@ namespace Stories.Services
             return new UserDTO(user);
         }
 
-        public async Task<UserDTO> GetUserByIdAsync(int id)
+        public async Task<UserDTO> GetUserByIdAsync(Guid id)
         {
             var user = await _context.Users
-                .Include(u => u.Votes)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null) return null;
@@ -42,13 +41,12 @@ namespace Stories.Services
         public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
         {
             var users = await _context.Users
-                .Include(u => u.Votes)
                 .ToListAsync();
 
             return users.Select(u => new UserDTO(u)).ToList();
         }
 
-        public async Task<UserDTO> UpdateUserAsync(int id, UserDTO userDto)
+        public async Task<UserDTO> UpdateUserAsync(Guid id, UserDTO userDto)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;
@@ -60,7 +58,7 @@ namespace Stories.Services
             return new UserDTO(user);
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
