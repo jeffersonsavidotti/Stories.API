@@ -9,7 +9,7 @@ import { UpdateStoryComponent } from './update-story/update-story.component';
 export const routes: Routes = [
     { path: 'users', component: UserComponent },
     { path: 'stories', component: StoryListComponent },
-    {path: 'story', component: StoryComponent},
+    { path: 'story', component: StoryComponent},
     { path: 'add-story', component: AddStoryComponent },
     { path: 'update-story/:id', component: UpdateStoryComponent },
     { path: '', redirectTo: '/stories', pathMatch: 'full' } // Redirecionei como rotaa raiz para '/stories'
