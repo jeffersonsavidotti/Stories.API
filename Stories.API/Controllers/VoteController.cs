@@ -5,7 +5,7 @@ using Stories.Services.Interfaces;
 
 namespace Stories.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/votes")]
     [ApiController]
     public class VoteController : ControllerBase
     {
@@ -27,7 +27,6 @@ namespace Stories.API.Controllers
             var voteDtos = await _voteService.GetAllVotesAsync();
             var viewModels = voteDtos.Select(dto => new VoteViewModel
             {
-                Id = dto.Id,
                 IdStory = dto.IdStory,
                 IdUser = dto.IdUser,
                 VoteValue = dto.VoteValue
@@ -61,7 +60,7 @@ namespace Stories.API.Controllers
 
             var createdVoteDto = await _voteService.CreateVoteAsync(voteDto);
 
-            return CreatedAtAction(nameof(GetAllVotes), new { id = createdVoteDto.Id }, createdVoteDto);
+            return CreatedAtAction(nameof(GetAllVotes), new { id = createdVoteDto }, createdVoteDto);
         }
     }
 }

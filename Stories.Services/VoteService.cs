@@ -39,8 +39,6 @@ namespace Stories.Services
                 }
                 await _context.SaveChangesAsync();
             }
-
-            voteDto.Id = vote.Id;
             return voteDto;
         }
 
@@ -50,7 +48,6 @@ namespace Stories.Services
             var votes = await _context.Votes
                 .Select(v => new VoteDTO
                 {
-                    Id = v.Id,
                     IdStory = v.IdStory,
                     IdUser = v.IdUser,
                     VoteValue = v.VoteValue
@@ -58,50 +55,6 @@ namespace Stories.Services
                 .ToListAsync();
 
             return votes;
-        }
-
-        public async Task<VoteDTO> GetVoteByIdAsync(int id)
-        {
-            var vote = await _context.Votes
-                .Where(v => v.Id == id)
-                .Select(v => new VoteDTO
-                {
-                    Id = v.Id,
-                    IdStory = v.IdStory,
-                    IdUser = v.IdUser,
-                    VoteValue = v.VoteValue
-                })
-                .FirstOrDefaultAsync();
-
-            return vote;
-        }
-
-        public async Task<bool> DeleteVoteAsync(int id)
-        {
-            var vote = await _context.Votes.FindAsync(id);
-            if (vote == null)
-            {
-                return false;
-            }
-
-            _context.Votes.Remove(vote);
-
-            var story = await _context.Stories.FindAsync(vote.IdStory);
-            if (story != null)
-            {
-                if (vote.VoteValue)
-                {
-                    story.PositiveVotesCount--;
-                }
-                else
-                {
-                    story.NegativeVotesCount--;
-                }
-            }
-
-            await _context.SaveChangesAsync();
-
-            return true;
         }
 
     }
