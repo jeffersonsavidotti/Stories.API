@@ -5,6 +5,6 @@ namespace Stories.API.CQRS.Commands.StoryRequests;
 
 public class DeleteStoryRequest : IRequest<CreateStoryResponse>
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }
 

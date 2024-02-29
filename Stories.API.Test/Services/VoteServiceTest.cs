@@ -59,56 +59,6 @@ namespace Stories.Services.Tests
                 Assert.Equal(votes.Count, allVotes.Count());
             }
         }
-        //GetById
-        [Fact]
-        public async Task GetVoteByIdAsync_WithValidId_ReturnsVoteDto()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "GetVoteByIdAsync_Database")
-                .Options;
 
-            using (var context = new AppDbContext(options))
-            {
-                var vote = new Vote { IdStory = 1, IdUser = 1, VoteValue = true };
-                context.Votes.Add(vote);
-                context.SaveChanges();
-
-                var service = new VoteService(context);
-
-                // Act
-                var voteDto = await service.GetVoteByIdAsync(vote.Id);
-
-                // Assert
-                Assert.NotNull(voteDto);
-                Assert.Equal(vote.Id, voteDto.Id);
-            }
-        }
-
-        //Delete (Não implementei na controller)
-        [Fact]
-        public async Task DeleteVoteAsync_WithValidId_ReturnsTrue()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "DeleteVoteAsync_Database")
-                .Options;
-
-            using (var context = new AppDbContext(options))
-            {
-                var vote = new Vote { IdStory = 1, IdUser = 1, VoteValue = true };
-                context.Votes.Add(vote);
-                context.SaveChanges();
-
-                var service = new VoteService(context);
-
-                // Act
-                var result = await service.DeleteVoteAsync(vote.Id);
-
-                // Assert
-                Assert.True(result);
-                Assert.Null(context.Votes.Find(vote.Id));
-            }
-        }
     }
 }

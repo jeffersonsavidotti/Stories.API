@@ -43,7 +43,7 @@ namespace Stories.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserViewModel), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById(int id)
         {
             var userDto = await _userService.GetUserByIdAsync(id);
             if (userDto == null)
@@ -98,7 +98,7 @@ namespace Stories.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Edit(Guid id, [FromBody] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, [FromBody] UserViewModel viewModel)
         {
             if (id != viewModel.Id || !ModelState.IsValid)
             {
@@ -129,7 +129,7 @@ namespace Stories.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
             bool success = await _userService.DeleteUserAsync(id);
             if (!success)

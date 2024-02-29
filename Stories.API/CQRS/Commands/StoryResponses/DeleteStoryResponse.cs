@@ -2,6 +2,6 @@
 {
     public class DeleteStoryResponse
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }

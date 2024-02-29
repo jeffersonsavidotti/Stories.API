@@ -4,7 +4,7 @@ namespace Stories.Services.DTOs
 {
     public class VoteDTO
     {
-        //public Guid Id { get; set; }
+        public int Id { get; set; }
         public int IdStory { get; set; }
         public int IdUser { get; set; }
         public bool VoteValue { get; set; }
