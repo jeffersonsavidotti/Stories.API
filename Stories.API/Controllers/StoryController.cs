@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Stories.API.Applications.ViewModels;
+using Stories.API.CQRS.Commands.Story;
+using Stories.API.CQRS.Queries.Story;
+using Stories.API.CQRS.Queries;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 
@@ -152,3 +156,119 @@ namespace Stories.API.Controllers
         }
     }
 }
+
+#region
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Stories.API.Applications.ViewModels;
+using Stories.API.CQRS.Commands.Story;
+using Stories.API.CQRS.Queries.Story;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Stories.API.Controllers
+{
+    [Route("api/stories")]
+    [ApiController]
+    public class StoryController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public StoryController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllStories()
+        {
+            var query = new GetAllStoriesQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result.Select(dto => new StoryViewModel
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                Department = dto.Department,
+                PositiveVotesCount = dto.PositiveVotesCount,
+                NegativeVotesCount = dto.NegativeVotesCount,
+            }));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var query = new GetStoryByIdQuery { Id = id };
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new StoryViewModel
+            {
+                Id = result.Id,
+                Title = result.Title,
+                Description = result.Description,
+                Department = result.Department,
+                PositiveVotesCount = result.PositiveVotesCount,
+                NegativeVotesCount = result.NegativeVotesCount,
+            };
+
+            return Ok(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] StoryViewModel viewModel)
+        {
+            var command = new CreateStoryCommand
+            {
+                Title = viewModel.Title,
+                Description = viewModel.Description,
+                Department = viewModel.Department,
+            };
+
+            var createdId = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = createdId }, viewModel);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] StoryViewModel viewModel)
+        {
+            var command = new UpdateStoryCommand
+            {
+                Id = id,
+                Title = viewModel.Title,
+                Description = viewModel.Description,
+                Department = viewModel.Department,
+            };
+
+            var success = await _mediator.Send(command);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteStoryCommand { Id = id };
+            var success = await _mediator.Send(command);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+    }
+}
+
+#endregion
