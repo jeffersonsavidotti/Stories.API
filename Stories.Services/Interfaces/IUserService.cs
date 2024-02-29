@@ -5,9 +5,9 @@ namespace Stories.Services.Interfaces
     public interface IUserService
     {
         Task<UserDTO> CreateUserAsync(UserDTO userDto);
-        Task<UserDTO> GetUserByIdAsync(Guid id);
+        Task<UserDTO> GetUserByIdAsync(int id);
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
-        Task<UserDTO> UpdateUserAsync(Guid id, UserDTO userDto);
-        Task<bool> DeleteUserAsync(Guid id);
+        Task<UserDTO> UpdateUserAsync(int id, UserDTO userDto);
+        Task<bool> DeleteUserAsync(int id);
     }
 }

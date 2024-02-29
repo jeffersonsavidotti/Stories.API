@@ -25,7 +25,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Vote>(entity =>
         {
             entity.ToTable("Votes");
-            entity.HasKey("Id");
+            entity.HasKey(e => e.Id);
             entity.Property(e => e.VoteValue).IsRequired();
         });
 

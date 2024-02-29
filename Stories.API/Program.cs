@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Stories.Services.Interfaces;
 using Stories.Services;
+using System.Reflection;
+using MediatR;
 
 
 // Add services to the container.
@@ -18,6 +20,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IVoteService, VoteService>();

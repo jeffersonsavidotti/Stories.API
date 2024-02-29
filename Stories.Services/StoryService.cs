@@ -29,7 +29,7 @@ namespace Stories.Services
             return new StoryDTO(story);
         }
 
-        public async Task<StoryDTO> GetStoryByIdAsync(Guid id)
+        public async Task<StoryDTO> GetStoryByIdAsync(int id)
         {
             var story = await _context.Stories
                 .Include(s => s.Votes)
@@ -47,7 +47,7 @@ namespace Stories.Services
             return stories.Select(s => new StoryDTO(s)).ToList();
         }
 
-        public async Task<StoryDTO> UpdateStoryAsync(Guid id, StoryDTO storyDto)
+        public async Task<StoryDTO> UpdateStoryAsync(int id, StoryDTO storyDto)
         {
             var story = await _context.Stories.FindAsync(id);
             if (story == null)
@@ -64,7 +64,7 @@ namespace Stories.Services
             return new StoryDTO(story);
         }
 
-        public async Task<bool> DeleteStoryAsync(Guid id)
+        public async Task<bool> DeleteStoryAsync(int id)
         {
             var story = await _context.Stories.FindAsync(id);
             if (story == null)
