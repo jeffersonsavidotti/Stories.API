@@ -18,7 +18,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.GetAllUsersAsync())
                        .ReturnsAsync(new List<UserDTO>());
 
-            var controller = new UserController(mockService.Object);
+            var controller = new UsersController(mockService.Object);
 
             // Act
             var result = await controller.GetAllUsers();
@@ -37,7 +37,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.GetUserByIdAsync(userId))
                        .ReturnsAsync(new UserDTO());
 
-            var controller = new UserController(mockService.Object);
+            var controller = new UsersController(mockService.Object);
 
             // Act
             var result = await controller.GetById(userId);
@@ -55,7 +55,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.CreateUserAsync(It.IsAny<UserDTO>()))
                        .ReturnsAsync(new UserDTO());
 
-            var controller = new UserController(mockService.Object);
+            var controller = new UsersController(mockService.Object);
             var viewModel = new UserViewModel { Name = "Jefferson" };
 
             // Act
@@ -75,7 +75,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.UpdateUserAsync(userId, It.IsAny<UserDTO>()))
                        .ReturnsAsync(new UserDTO());
 
-            var controller = new UserController(mockService.Object);
+            var controller = new UsersController(mockService.Object);
             var viewModel = new UserViewModel { Id = userId, Name = "Jefferson Savidotti" };
 
             // Act
@@ -95,7 +95,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.DeleteUserAsync(userId))
                        .ReturnsAsync(true);
 
-            var controller = new UserController(mockService.Object);
+            var controller = new UsersController(mockService.Object);
 
             // Act
             var result = await controller.Delete(userId);

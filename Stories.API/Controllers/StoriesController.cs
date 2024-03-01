@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Stories.API.Applications.ViewModels;
-using Stories.API.CQRS.Commands.Story;
-using Stories.API.CQRS.Queries.Story;
-using Stories.API.CQRS.Queries;
 using Stories.Services.DTOs;
 using Stories.Services.Interfaces;
 using Stories.API.CQRS.Commands.StoryRequests;
@@ -12,11 +9,11 @@ namespace Stories.API.Controllers
 {
     [Route("api/stories")]
     [ApiController]
-    public class StoryController : ControllerBase
+    public class StoriesController : ControllerBase
     {
         private readonly IStoryService _storyService;
 
-        public StoryController(IStoryService storyService)
+        public StoriesController(IStoryService storyService)
         {
             _storyService = storyService;
         }
@@ -100,28 +97,11 @@ namespace Stories.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Edit(int id, [FromBody] StoryViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, [FromBody] UpdateStoryRequest command, [FromServices] IMediator mediator)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var storyDto = new StoryDTO
-            {
-                Id = viewModel.Id,
-                Title = viewModel.Title,
-                Description = viewModel.Description,
-                Department = viewModel.Department,
-            };
-
-            var updatedStoryDto = await _storyService.UpdateStoryAsync(id, storyDto);
-            if (updatedStoryDto == null)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            command.Id = id;
+            var result = await mediator.Send(command);
+            return result!=null? Ok(result):NotFound("Story not found");
         }
 
         /// <summary>
@@ -133,15 +113,13 @@ namespace Stories.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [FromServices] IMediator mediator)
         {
-            var success = await _storyService.DeleteStoryAsync(id);
-            if (!success)
-            {
-                return NotFound();
-            }
+            var command = new DeleteStoryRequest { Id = id };
 
-            return NoContent();
+            var deleteStory = await mediator.Send(command);
+
+            return deleteStory != null ? Ok(deleteStory) : NotFound("Story not found.");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.GetAllStoriesAsync())
                        .ReturnsAsync(new List<StoryDTO>());
 
-            var controller = new StoryController(mockService.Object);
+            var controller = new StoriesController(mockService.Object);
 
             // Act
             var result = await controller.GetAllStories();
@@ -39,7 +39,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.GetStoryByIdAsync(storyId))
                        .ReturnsAsync(new StoryDTO());
 
-            var controller = new StoryController(mockService.Object);
+            var controller = new StoriesController(mockService.Object);
 
             // Act
             var result = await controller.GetById(storyId);
@@ -78,7 +78,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.UpdateStoryAsync(storyId, It.IsAny<StoryDTO>()))
                        .ReturnsAsync(new StoryDTO());
 
-            var controller = new StoryController(mockService.Object);
+            var controller = new StoriesController(mockService.Object);
             var viewModel = new StoryViewModel { Id = storyId, Title = "Projeto API", Description = "Desenvolver em 15 dias", Department = "Dev" };
 
             // Act
@@ -98,7 +98,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.DeleteStoryAsync(storyId))
                        .ReturnsAsync(true);
 
-            var controller = new StoryController(mockService.Object);
+            var controller = new StoriesController(mockService.Object);
 
             // Act
             var result = await controller.Delete(storyId);

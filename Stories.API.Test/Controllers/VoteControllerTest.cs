@@ -18,7 +18,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.GetAllVotesAsync())
                        .ReturnsAsync(new List<VoteDTO>());
 
-            var controller = new VoteController(mockService.Object);
+            var controller = new VotesController(mockService.Object);
 
             // Act
             var result = await controller.GetAllVotes();
@@ -36,7 +36,7 @@ namespace Stories.API.Tests.Controllers
             mockService.Setup(service => service.CreateVoteAsync(It.IsAny<VoteDTO>()))
                        .ReturnsAsync(new VoteDTO());
 
-            var controller = new VoteController(mockService.Object);
+            var controller = new VotesController(mockService.Object);
             var viewModel = new VoteViewModel { IdStory = 1, IdUser = 1, VoteValue = true };
 
             // Act

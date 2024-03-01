@@ -3,6 +3,6 @@ using Stories.Services.DTOs;
 
 namespace Stories.API.CQRS.Queries.Story;
 
-public class GetAllStoriesQuery : IRequest<IEnumerable<StoryDTO>>
+public class GetAllStoriesQuery : IRequest<List<StoryDTO>>
 {
 }
