@@ -5,6 +5,7 @@ using Stories.Services.Interfaces;
 using Stories.Infrastructure.Models;
 using Stories.API.CQRS.Commands.StoryResponses;
 using Stories.Services;
+using Stories.API.Applications.ViewModels;
 
 namespace Stories.API.CQRS.Handlers.StoryHandler 
 {
@@ -18,12 +19,18 @@ namespace Stories.API.CQRS.Handlers.StoryHandler
         }
         public async Task<CreateStoryResponse> Handle(CreateStoryRequest request, CancellationToken cancellationToken)
         {
-            var storyDto = new StoryDTO
+            var storyView = new StoryViewModel
             {
-                 
                 Title = request.Title,
                 Description = request.Description,
                 Department = request.Department,
+            };
+
+            var storyDto = new StoryDTO
+            {
+                Title = storyView.Title,
+                Description = storyView.Description,
+                Department = storyView.Department,
             };
 
             var createdStoryDto = await  _storyService.CreateStoryAsync(storyDto);

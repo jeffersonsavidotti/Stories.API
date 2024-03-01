@@ -1,47 +1,54 @@
-﻿//using MediatR;
-//using Microsoft.EntityFrameworkCore;
-//using Stories.API.CQRS.Commands.Story;
-//using Stories.Services.DTOs;
-//using Stories.Services.Interfaces;
-//using System.Threading;
-//using System.Threading.Tasks;
+﻿using MediatR;
+using Stories.API.Applications.ViewModels;
+using Stories.API.CQRS.Commands.StoryRequests;
+using Stories.API.CQRS.Commands.StoryResponses;
+using Stories.Services.Interfaces;
 
-//namespace Stories.API.CQRS.Handlers.StoryHandler
-//{
-//    public class UpdateStoryHandler : IRequestHandler<UpdateStoryCommand, StoryDTO>
-//    {
-//        private readonly IStoryService _storyService;
+namespace Stories.API.CQRS.Handlers.StoryHandler
+{
+    public class UpdateStoryHandler : IRequestHandler<UpdateStoryRequest, UpdateStoryResponse>
+    {
+        private readonly IStoryService _storyService;
 
-//        public UpdateStoryHandler(IStoryService storyService)
-//        {
-//            _storyService = storyService;
-//        }
+        public UpdateStoryHandler(IStoryService storyService)
+        {
+            _storyService = storyService;
+        }
 
-//        public async Task<StoryDTO> Handle(UpdateStoryCommand request, CancellationToken cancellationToken)
-//        {
-//            var story = await _context.Stories.FindAsync(request.StoryDTO.Id);
+        public async Task<UpdateStoryResponse> Handle(UpdateStoryRequest request, CancellationToken cancellationToken)
+        {
+            var getStory = await _storyService.GetStoryByIdAsync(request.Id);
 
-//            if (story == null)
-//            {
-//                throw new NotFoundException("Story not found.");
-//            }
+            if (getStory is null)
+            {
+                throw new InvalidOperationException("Story not found");
+            }
+            var storyView = new StoryViewModel
+            {
+                Id = request.Id,
+                Title = request.Title,
+                Description = request.Description,
+                Department = request.Department
+            };
 
-//            story.Title = request.StoryDTO.Title;
-//            story.Description = request.StoryDTO.Description;
-//            story.Department = request.StoryDTO.Department;
-//            // Atualizar outras propriedades conforme necessário
+            getStory.Id = request.Id;
+            getStory.Title = request.Title;
+            getStory.Description = request.Description;
+            getStory.Department = request.Department;
+            int id = request.Id;
 
-//            await _context.SaveChangesAsync(cancellationToken);
+            var story = await _storyService.UpdateStoryAsync(id, getStory);
 
-//            return new StoryDTO
-//            {
-//                Id = story.Id,
-//                Title = story.Title,
-//                Description = story.Description,
-//                Department = story.Department,
-//                // Copiar outras propriedades para o DTO
-//            };
-//        }
+            var result = new UpdateStoryResponse
+            {
+                Id = story.Id,
+                Title = story.Title,
+                Description = story.Description,
+                Department = story.Department
+            };
 
-//    }
-//}
+            return result;
+        }
+
+    }
+}

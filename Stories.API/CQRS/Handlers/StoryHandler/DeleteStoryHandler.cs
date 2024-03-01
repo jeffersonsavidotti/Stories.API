@@ -15,19 +15,24 @@ namespace Stories.API.CQRS.Handlers.StoryHandler
             _storyService = storyService;
         }
 
-        public Task<DeleteStoryResponse> Handle(DeleteStoryRequest request, CancellationToken cancellationToken)
+        public async Task<DeleteStoryResponse> Handle(DeleteStoryRequest request, CancellationToken cancellationToken)
         {
+
+            var deleteStoryDto = await _storyService.DeleteStoryAsync(request.Id);
+
+            if (deleteStoryDto == null)
+            {
+                throw new InvalidOperationException("Story not found");
+            }
 
             var storyDto = new StoryDTO
             {
                 Id = request.Id,
             };
 
-            var deleteStoryDto = await _storyService.CreateStoryAsync(storyDto);
-
             var result = new DeleteStoryResponse
             {
-                Id = deleteStoryDto.Id,
+                Id = storyDto.Id,
             };
 
             return result;
