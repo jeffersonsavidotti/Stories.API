@@ -7,7 +7,7 @@ import { Story } from '../models/story.model';
   providedIn: 'root'
 })
 export class StoryService {
-  private getUrl = 'https://localhost:7098/api/Story';
+  private getUrl = 'https://localhost:7098/api/stories';
 
   constructor(private http: HttpClient) { }
   //GetAllstories

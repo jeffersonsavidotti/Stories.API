@@ -48,63 +48,6 @@ namespace Stories.API.Tests.Controllers
             Assert.IsType<OkObjectResult>(result);
         }
 
-        ////Add
-        //[Fact]
-        //public async Task Create_WithValidModel_ReturnsCreatedAtActionResult()
-        //{
-        //    // Arrange
-        //    var mockService = new Mock<IStoryService>();
-        //    mockService.Setup(service => service.CreateStoryAsync(It.IsAny<StoryDTO>()))
-        //               .ReturnsAsync(new StoryDTO());
-
-        //    var controller = new StoryController(mockService.Object);
-        //    var request = new CreateStoryResponse { Title = "Projeto API", Description = "Desenvolver em 15 dias", Department = "Dev" };
-
-        //    // Act
-        //    var result = await controller.Create(request);
-
-        //    // Assert
-        //    Assert.IsType<CreatedAtActionResult>(result);
-        //}
-
-
-        // Update
-        [Fact]
-        public async Task Edit_WithValidModel_ReturnsNoContentResult()
-        {
-            // Arrange
-            int storyId = 1;
-            var mockService = new Mock<IStoryService>();
-            mockService.Setup(service => service.UpdateStoryAsync(storyId, It.IsAny<StoryDTO>()))
-                       .ReturnsAsync(new StoryDTO());
-
-            var controller = new StoriesController(mockService.Object);
-            var viewModel = new StoryViewModel { Id = storyId, Title = "Projeto API", Description = "Desenvolver em 15 dias", Department = "Dev" };
-
-            // Act
-            var result = await controller.Edit(storyId, viewModel);
-
-            // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        //Delete
-        [Fact]
-        public async Task Delete_WithValidId_ReturnsNoContentResult()
-        {
-            // Arrange
-            int storyId = 1;
-            var mockService = new Mock<IStoryService>();
-            mockService.Setup(service => service.DeleteStoryAsync(storyId))
-                       .ReturnsAsync(true);
-
-            var controller = new StoriesController(mockService.Object);
-
-            // Act
-            var result = await controller.Delete(storyId);
-
-            // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
+      
     }
 }

@@ -18,7 +18,7 @@ namespace Stories.Services.Tests
             using (var context = new AppDbContext(options))
             {
                 var service = new VoteService(context);
-                var voteDto = new VoteDTO { IdStory = 1, IdUser = 1, VoteValue = true };
+                var voteDto = new VoteDTO { IdStory = 1, IdUser = 1, VoteValue = false };
 
                 // Act
                 var createdVoteDto = await service.CreateVoteAsync(voteDto);

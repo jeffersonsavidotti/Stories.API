@@ -1,4 +1,4 @@
-<h2>Adicionar Nova História</h2>
+<h2>Adicionar Nova Estória</h2>
 <form #storyForm="ngForm" (ngSubmit)="addStory(storyForm.value)">
   <div class="form-field">
     <mat-form-field appearance="fill">
@@ -25,9 +25,9 @@
     <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Adicionar História</button>
     <button mat-raised-button color="secundary" (click)="goToHome()">Voltar</button>
   </div>
-  
+
 </form>
 
 <div *ngIf="showSuccessMessage" class="success-message">
-  História adicionada com sucesso!
+  Estória adicionada com sucesso!
 </div>
