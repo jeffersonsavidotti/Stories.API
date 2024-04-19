@@ -1,4 +1,4 @@
-<h2>Atualizar História</h2>
+<h2>Atualizar Estória</h2>
 <form #storyForm="ngForm" (ngSubmit)="updateStory()">
   <div class="form-field">
     <mat-form-field appearance="fill">
@@ -29,11 +29,11 @@
   </div>
 
   <div class="form-button">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Atualizar História</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!storyForm.valid">Atualizar Estória</button>
     <button mat-raised-button color="secondary" (click)="goToHome()">Voltar</button>
   </div>
 </form>
 
 <div *ngIf="showSuccessMessage" class="success-message">
-  História atualizada com sucesso!
+  Estória atualizada com sucesso!
 </div>

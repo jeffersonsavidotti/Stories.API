@@ -36,7 +36,7 @@ describe('VoteService', () => {
       expect(votes).toEqual(dummyVotes);
     });
 
-    const req = httpMock.expectOne('https://localhost:7098/api/Vote');
+    const req = httpMock.expectOne('https://localhost:7098/api/votes');
     expect(req.request.method).toBe('GET');
     req.flush(dummyVotes);
   });

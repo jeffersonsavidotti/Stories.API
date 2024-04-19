@@ -7,7 +7,7 @@ import { Vote } from '../models/vote.model';
   providedIn: 'root'
 })
 export class VoteService {
-  private apiUrl = 'https://localhost:7098/api/Vote';
+  private apiUrl = 'https://localhost:7098/api/votes';
 
   constructor(private http: HttpClient) { }
 
